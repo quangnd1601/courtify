@@ -84,9 +84,8 @@ const BookingSchema = new Schema(
   },
 );
 
-// Unique compound index to prevent double bookings
-// Ensures that for a given court and date, a specific start_time slot can only be booked once,
-// ignoring bookings that have been cancelled.
+// Chỉ mục này ngăn chặn việc đặt trùng sân, ngày và khung giờ, 
+// bỏ qua (cho phép đặt lại) đối với các lịch đã hủy.
 BookingSchema.index(
   { court_id: 1, booking_date: 1, "slots.start_time": 1 },
   {

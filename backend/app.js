@@ -35,13 +35,22 @@ mongoose
 
 // 3. cấu hình CORS - kiểm tra whiteList
 var cors = require("cors");
-//tạo biến cho phép truy cập
+var allowlist = [
+  process.env.PORT_FRONT_END_1,
+  process.env.PORT_FRONT_END_2,
+];
 var corsOptionsDelegate = function (req, callback) {
-  var corsOptions = { origin: true };
+  var corsOptions;
+
+  if (allowlist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true };
+  } else {
+    corsOptions = { origin: false };
+  }
+
   callback(null, corsOptions);
 };
 
-//chạy hàm cho phép truy cập
 app.use(cors(corsOptionsDelegate));
 
 app.use(logger("dev"));

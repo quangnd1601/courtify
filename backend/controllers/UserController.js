@@ -37,7 +37,7 @@ const updateUser = async (req, res, next) => {
       return res.status(400).json({ message: "ID không hợp lệ" });
     }
 
-    // Check email uniqueness if updating
+    // Check email 
     const { email } = req.body;
     if (email) {
       const existingUsers = await UserService.getAll();
@@ -113,8 +113,8 @@ const loginUser = async (req, res, next) => {
     const UserModel = require("../models/User");
     const user = await UserModel.findOne({ email: email });
     if (user && bcrypt.compareSync(password, user.password)) {
-      const access_token = jwt.sign({ user }, "shhhhh", { expiresIn: 1 * 60 });
-      const refresh_token = jwt.sign({ user }, "shhhhh", { expiresIn: 90 * 24 * 60 * 60 });
+      const access_token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: 1 * 60 });
+      const refresh_token = jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: 90 * 24 * 60 * 60 });
       res.status(200).json({ user, access_token, refresh_token });
     } else {
       res.status(401).json({ error: "Sai email hoặc mật khẩu" });
@@ -127,9 +127,9 @@ const loginUser = async (req, res, next) => {
 const refreshToken = async (req, res, next) => {
   try {
     let { refresh_token } = req.body;
-    const data = jwt.verify(refresh_token, "shhhhh");
-    const access_token = jwt.sign({ user: data.user }, "shhhhh", { expiresIn: 1 * 60 });
-    refresh_token = jwt.sign({ user: data.user }, "shhhhh", { expiresIn: 90 * 24 * 60 * 60 });
+    const data = jwt.verify(refresh_token, process.env.JWT_SECRET);
+    const access_token = jwt.sign({ user: data.user }, process.env.JWT_SECRET, { expiresIn: 1 * 60 });
+    refresh_token = jwt.sign({ user: data.user }, process.env.JWT_SECRET, { expiresIn: 90 * 24 * 60 * 60 });
     res.status(200).json({ user: data.user, access_token, refresh_token });
   } catch (error) {
     res.status(414).json({ error: error.message });

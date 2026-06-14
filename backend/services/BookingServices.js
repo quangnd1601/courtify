@@ -19,7 +19,7 @@ let getOne = async (id) => {
 };
 
 let create = async (data) => {
-  // Auto-generate booking code if not provided
+  // Tạo mã booking
   if (!data.booking_code) {
     data.booking_code = "BK" + Date.now() + Math.floor(Math.random() * 1000);
   }
@@ -36,10 +36,23 @@ let update = async (id, data) => {
     .populate("voucher_id");
   return booking;
 };
-
 let remove = async (id) => {
   const booking = await BookingModel.findByIdAndDelete(id);
   return booking;
+};
+
+let checkConflict = async (courtId, bookingDate, startTimes) => {
+  const conflict = await BookingModel.findOne({
+    court_id: courtId,
+    booking_date: new Date(bookingDate),
+    booking_status: { $ne: "cancelled" },
+    slots: {
+      $elemMatch: {
+        start_time: { $in: startTimes },
+      },
+    },
+  });
+  return conflict;
 };
 
 module.exports = {
@@ -48,4 +61,5 @@ module.exports = {
   create,
   update,
   remove,
+  checkConflict,
 };

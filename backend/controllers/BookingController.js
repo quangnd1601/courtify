@@ -69,6 +69,15 @@ const createBooking = async (req, res, next) => {
       return res.status(400).json({ message: "ID liên kết không hợp lệ" });
     }
 
+    // Check double bookings / slot 
+    const startTimes = slots.map((s) => s.start_time);
+    const hasConflict = await BookingService.checkConflict(court_id, booking_date, startTimes);
+    if (hasConflict) {
+      return res.status(400).json({
+        message: "Khung giờ này vừa mới được người khác đặt, vui lòng chọn khung giờ khác",
+      });
+    }
+
     const newBooking = await BookingService.create({
       booking_code,
       user_id,
@@ -88,7 +97,7 @@ const createBooking = async (req, res, next) => {
     });
     res.status(201).json({ booking: newBooking });
   } catch (error) {
-    // Handle double booking unique compound index violation
+    //  double booking 
     if (error.code === 11000) {
       return res.status(400).json({
         message: "Khung giờ này vừa mới được người khác đặt, vui lòng chọn khung giờ khác",
@@ -113,7 +122,7 @@ const updateBooking = async (req, res, next) => {
   } catch (error) {
     if (error.code === 11000) {
       return res.status(400).json({
-        message: "Khung giờ này vừa mới được người khác đặt, vui lòng chọn khung giờ khác",
+        message: "Khung giờ này đã được người khác đặt, vui lòng chọn khung giờ khác",
         error: error.message,
       });
     }

@@ -1,0 +1,6 @@
+node_modules/
+.env/
+frontend/src/assets/uploads/
+.postman/
+postman
+walkthrough.md
