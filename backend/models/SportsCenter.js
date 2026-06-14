@@ -46,6 +46,10 @@ const SportsCenterSchema = new Schema(
       enum: ["active", "inactive"],
       default: "active",
     },
+    booking_count: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

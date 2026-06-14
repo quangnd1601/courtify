@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 
 const getAllCenters = async (req, res, next) => {
   try {
-    const centers = await SportsCenterService.getAll();
+    const { sort, limit } = req.query;
+    const centers = await SportsCenterService.getAll({ sort, limit });
     res.status(200).json({ centers });
   } catch (error) {
     res.status(500).json({ message: "Lỗi server", error: error.message });

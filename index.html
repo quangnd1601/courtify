@@ -1,0 +1,879 @@
+<!doctype html>
+<html class="scroll-smooth" lang="vi" style="">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Courtify | Đặt sân chuyên nghiệp</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&amp;family=Hanken+Grotesk:wght@400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4059aa",
+              "surface-container-low": "#eff4ff",
+              "tertiary-fixed-dim": "#ffb690",
+              "on-secondary-container": "#536d22",
+              "tertiary-fixed": "#ffdbca",
+              "surface-dim": "#cbdbf5",
+              outline: "#757682",
+              "primary-fixed-dim": "#b6c4ff",
+              "surface-container-highest": "#d3e4fe",
+              "inverse-on-surface": "#eaf1ff",
+              "on-secondary-fixed": "#131f00",
+              secondary: "#4d661c",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed": "#341100",
+              tertiary: "#4b1c00",
+              "on-primary": "#ffffff",
+              "surface-variant": "#d3e4fe",
+              "on-primary-fixed-variant": "#264191",
+              "primary-container": "#1e3a8a",
+              "on-tertiary": "#ffffff",
+              "on-error-container": "#93000a",
+              error: "#ba1a1a",
+              "inverse-surface": "#213145",
+              "inverse-primary": "#b6c4ff",
+              "on-primary-fixed": "#00164e",
+              "surface-container": "#e5eeff",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#ceee93",
+              primary: "#00236f",
+              background: "#f8f9ff",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#444651",
+              "outline-variant": "#c5c5d3",
+              "on-tertiary-container": "#ff8f4f",
+              "surface-container-high": "#dce9ff",
+              "primary-fixed": "#dce1ff",
+              "secondary-container": "#ceee93",
+              "on-tertiary-fixed-variant": "#783200",
+              "on-surface": "#0b1c30",
+              "error-container": "#ffdad6",
+              "secondary-fixed-dim": "#b3d17a",
+              "on-background": "#0b1c30",
+              surface: "#f8f9ff",
+              "on-secondary-fixed-variant": "#364e03",
+              "on-primary-container": "#90a8ff",
+              "tertiary-container": "#6e2d00",
+              "surface-bright": "#f8f9ff",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              xs: "4px",
+              gutter: "24px",
+              "margin-mobile": "16px",
+              base: "4px",
+              sm: "8px",
+              lg: "24px",
+              xl: "48px",
+              md: "16px",
+              "container-max": "1280px",
+            },
+            fontFamily: {
+              "headline-lg": ["Lexend"],
+              "label-md": ["Hanken Grotesk"],
+              "headline-lg-mobile": ["Lexend"],
+              "body-lg": ["Hanken Grotesk"],
+              "headline-md": ["Lexend"],
+              "headline-xl": ["Lexend"],
+              "label-sm": ["Hanken Grotesk"],
+              "body-md": ["Hanken Grotesk"],
+            },
+            fontSize: {
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-md": [
+                "14px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "0.05em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-lg-mobile": [
+                "24px",
+                { lineHeight: "1.2", fontWeight: "700" },
+              ],
+              "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+              "headline-md": ["20px", { lineHeight: "1.4", fontWeight: "600" }],
+              "headline-xl": [
+                "40px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-sm": ["12px", { lineHeight: "1.2", fontWeight: "500" }],
+              "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+
+      .hero-gradient {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 35, 111, 0.95) 0%,
+          rgba(30, 58, 138, 0.8) 100%
+        );
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+      }
+    </style>
+  </head>
+
+  <body class="bg-background text-on-background font-body-md">
+    <!-- TopNavBar -->
+    <nav
+      class="w-full top-0 sticky z-50 bg-surface dark:bg-on-surface shadow-sm"
+    >
+      <div
+        class="flex justify-between items-center px-gutter max-w-container-max mx-auto h-16"
+      >
+        <div class="flex items-center gap-md">
+          <span
+            class="font-headline-xl text-headline-xl font-bold text-primary dark:text-primary-fixed-dim"
+            >Courtify</span
+          >
+        </div>
+        <div class="hidden md:flex items-center gap-lg">
+          <a
+            class="text-primary dark:text-primary-fixed-dim border-b-2 border-primary dark:border-primary-fixed-dim pb-1 font-label-md"
+            href="#"
+            >Trang chủ</a
+          >
+          <a
+            class="text-on-surface-variant dark:text-outline-variant hover:text-primary font-label-md transition-colors"
+            href="#"
+            >Tìm sân</a
+          >
+          <a
+            class="text-on-surface-variant dark:text-outline-variant hover:text-primary font-label-md transition-colors"
+            href="#"
+            >Tin tức</a
+          >
+          <a
+            class="text-on-surface-variant dark:text-outline-variant hover:text-primary font-label-md transition-colors"
+            href="#"
+            >Liên hệ</a
+          >
+          <a
+            class="text-on-surface-variant dark:text-outline-variant hover:text-primary font-label-md transition-colors"
+            href="#"
+            >Giới thiệu</a
+          >
+        </div>
+        <div class="flex items-center gap-md">
+          <button
+            class="p-2 rounded-full hover:bg-primary/5 transition-colors text-primary"
+          >
+            <span class="material-symbols-outlined">search</span>
+          </button>
+          <button
+            class="p-2 rounded-full hover:bg-primary/5 transition-colors text-primary"
+          >
+            <span class="material-symbols-outlined">shopping_cart</span>
+          </button>
+
+          <div
+            class="w-10 h-10 rounded-full bg-primary-fixed overflow-hidden border-2 border-primary/10"
+          >
+            <img
+              alt="Ảnh đại diện người dùng"
+              class="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhvuc5ILj3tYQZh9nwmGaN74s1H2WlG6-uY169rXz5n_-68UKkyCI6CSMJ4bSsDeUZ43u_JCiEJG680S46uFFMVnLbs6SCl7uyYyR9zhkGIvPWf4YZc_j0McxJ-kDCyMPU3alLrkwUrnUBXyaMZd02CgSVnEuZM1kLDuXKV2I9mey0UPJ0Z9mGgTpKsip7pXCUZ1nxXU4SfByeiQGrkXbL1pFGCK208x0F9QOg5IlGMTywM5LSks9kVQ"
+            />
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main>
+      <!-- Hero Section with Search -->
+      <section
+        class="relative min-h-[600px] flex items-center justify-center overflow-hidden"
+      >
+        <div
+          class="absolute inset-0 z-0 transition-all duration-700 opacity-100 translate-y-0"
+        >
+          <img
+            alt="Sân tennis chuyên nghiệp vào lúc hoàng hôn"
+            class="w-full h-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUKI-Yb4eoVXRQjrn1ZUhRMQ2V4Ud70k4ZV9W_yGdcguWdts-UJek9LEw8Nkoq6JwqThvndi3f2eBgiRkMxO_dv_63RgwJYBVTUp5QIf01FHETArHf0_ORjtsRGwupmzPOFoEbdeWev7Fbdvu73DZy4haenuluhkcRO6QaRj6b0XYf6ZT4cNPgOWvtg4TJ7AyOSnj7nBiZBphjgjzpdxGbTHrRp_TnPooZp-rh-4uk0CoSmXdXbETNig"
+          />
+          <div class="absolute inset-0 hero-gradient"></div>
+        </div>
+        <div
+          class="relative z-10 px-gutter max-w-container-max mx-auto w-full text-center text-white py-xl transition-all duration-700 opacity-100 translate-y-0"
+        >
+          <h1 class="font-headline-xl text-headline-xl mb-md uppercase">
+            LÀM CHỦ MỌI TRẬN ĐẤU
+          </h1>
+          <p
+            class="font-body-lg text-body-lg mb-xl max-w-2xl mx-auto opacity-90"
+          >
+            Đặt sân Tennis, Cầu lông và Pickleball chuyên nghiệp chỉ trong vài
+            giây. Đỉnh cao thi đấu bắt đầu từ sân chơi đúng tầm.
+          </p>
+          <!-- Search Bar Container -->
+          <div
+            class="glass-card p-md rounded-xl shadow-xl max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-sm items-end text-left"
+          >
+            <div class="space-y-xs">
+              <label
+                class="text-label-sm text-on-surface-variant ml-1 uppercase"
+                >ĐỊA ĐIỂM</label
+              >
+              <div class="relative">
+                <span
+                  class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline"
+                  >location_on</span
+                >
+                <input
+                  class="w-full pl-10 pr-md py-sm rounded-lg border border-outline-variant focus:border-primary focus:ring-0 text-on-surface"
+                  placeholder="Thành phố hoặc Câu lạc bộ"
+                  type="text"
+                />
+              </div>
+            </div>
+            <div class="space-y-xs">
+              <label
+                class="text-label-sm text-on-surface-variant ml-1 uppercase"
+                >MÔN THỂ THAO</label
+              >
+              <div class="relative">
+                <span
+                  class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline"
+                  >sports_tennis</span
+                >
+                <select
+                  class="w-full pl-10 pr-md py-sm rounded-lg border border-outline-variant focus:border-primary focus:ring-0 text-on-surface appearance-none"
+                >
+                  <option>Tennis</option>
+                  <option>Cầu lông</option>
+                  <option>Pickleball</option>
+                </select>
+              </div>
+            </div>
+            <div class="space-y-xs">
+              <label
+                class="text-label-sm text-on-surface-variant ml-1 uppercase"
+                >NGÀY ĐẶT</label
+              >
+              <div class="relative">
+                <span
+                  class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline"
+                  >calendar_today</span
+                >
+                <input
+                  class="w-full pl-10 pr-md py-sm rounded-lg border border-outline-variant focus:border-primary focus:ring-0 text-on-surface"
+                  type="date"
+                />
+              </div>
+            </div>
+            <button
+              class="transition-all h-[46px] rounded-lg font-label-md flex items-center justify-center gap-xs active:scale-[0.98] bg-primary text-on-primary hover:bg-primary-container"
+            >
+              <span class="material-symbols-outlined">search</span>
+              TÌM SÂN NGAY
+            </button>
+          </div>
+        </div>
+      </section>
+      <!-- Categories Section -->
+      <section class="py-xl px-gutter max-w-container-max mx-auto">
+        <div
+          class="flex items-center justify-between mb-lg transition-all duration-700 opacity-100 translate-y-0"
+        >
+          <h2 class="font-headline-lg text-headline-lg text-primary uppercase">
+            CHỌN BỘ MÔN CỦA BẠN
+          </h2>
+          <div
+            class="h-1 flex-1 mx-lg bg-surface-container-high rounded-full overflow-hidden"
+          >
+            <div class="h-full bg-secondary w-1/4"></div>
+          </div>
+        </div>
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 gap-lg transition-all duration-700 opacity-100 translate-y-0"
+        >
+          <!-- Tennis -->
+          <div
+            class="group relative rounded-xl overflow-hidden aspect-[4/5] shadow-sm hover:shadow-md transition-all"
+          >
+            <img
+              alt="Bóng tennis trên mặt sân"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiCplggzlc6yzpV4MzzycJ9Yyq0dCcywhneGkZ1Q875uF_c0hGzawzUHxIEDgzUszBTPgrR7-lv7O_U-k2s375TFEZOK_VFEZvtpYcsnOKmzS7cZSZVclHL19WaEymDfyooVYq8tleY89A8BiIRbwU4jfddrUjFtAPVtoQ3ynfb7kaMuXHGpGtcHz1M98etEfbQWujb-CIzleTQwI2hpUXhdSC9X9yU5CG32XHwMlXEe84BySmu1uanw"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent flex flex-col justify-end p-lg text-white"
+            >
+              <span
+                class="material-symbols-outlined mb-sm text-secondary-fixed text-4xl"
+                >sports_tennis</span
+              >
+              <h3 class="font-headline-md text-headline-md">Tennis</h3>
+              <p class="font-body-md text-sm opacity-80 mb-md">
+                Sân đất nện, sân cỏ và sân cứng luôn sẵn sàng.
+              </p>
+              <a
+                class="text-secondary-fixed font-label-md flex items-center gap-xs hover:gap-sm transition-all"
+                href="#"
+              >
+                KHÁM PHÁ SÂN
+                <span class="material-symbols-outlined text-sm"
+                  >arrow_forward</span
+                >
+              </a>
+            </div>
+          </div>
+          <!-- Badminton -->
+          <div
+            class="group relative rounded-xl overflow-hidden aspect-[4/5] shadow-sm hover:shadow-md transition-all"
+          >
+            <img
+              alt="Sân cầu lông trong nhà"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAu3ke26bPwxH5WxIij-QHgFb2Kp79zG9XrjwsD2vPAm2jfkTGoiCpZ_xAvOL4A6OXP3NgkZfUKr18hAA6Wxjl3KGnRZfsypOd_mx59U01K0ZC_MibWY_szcZ4dbAOXBKb0sVTclnSiKu_ZsYTMmDR25QS4O7zXj9GYh_cQtnmMkT8YnnHOSNKSgdrF4CTWamh4xYFSedocLK84FSwImlpYHac58Yn2npdbmDS0U67MhdtTwFKQLIwlPg"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent flex flex-col justify-end p-lg text-white"
+            >
+              <span
+                class="material-symbols-outlined mb-sm text-secondary-fixed text-4xl"
+                >sports_tennis</span
+              >
+              <h3 class="font-headline-md text-headline-md">Cầu lông</h3>
+              <p class="font-body-md text-sm opacity-80 mb-md">
+                Hệ thống sân sàn gỗ và thảm tổng hợp đạt chuẩn.
+              </p>
+              <a
+                class="text-secondary-fixed font-label-md flex items-center gap-xs hover:gap-sm transition-all"
+                href="#"
+              >
+                KHÁM PHÁ SÂN
+                <span class="material-symbols-outlined text-sm"
+                  >arrow_forward</span
+                >
+              </a>
+            </div>
+          </div>
+          <!-- Pickleball -->
+          <div
+            class="group relative rounded-xl overflow-hidden aspect-[4/5] shadow-sm hover:shadow-md transition-all"
+          >
+            <img
+              alt="Sân pickleball ngoài trời hiện đại"
+              class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvpuz8rHYbyKW0K9OWE-i_0rXKfksHA6hmPzXr8SqDpHXtPTW6CBVyjz0PVSfx6bkp0YRl-d7wcoYwnZYKEN2vbH_iLW6uFooGGMYiQStmU5Qdejevs83d5lj5rXhUBCW71l2LyGBQv1Han0kWsgXVSsY8AaUhRFL23z0atYfbTnACUsTWLhZES4uaxKlTTbnL-P2D_nD4tKoXdnhnb52EUF22IsdNGadXIEwbW5an08jQFK9rA5u4ZQ"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-t from-primary/90 to-transparent flex flex-col justify-end p-lg text-white"
+            >
+              <span
+                class="material-symbols-outlined mb-sm text-secondary-fixed text-4xl"
+                >sports_tennis</span
+              >
+              <h3 class="font-headline-md text-headline-md">Pickleball</h3>
+              <p class="font-body-md text-sm opacity-80 mb-md">
+                Trung tâm kết nối cộng đồng và các giải đấu chuyên nghiệp.
+              </p>
+              <a
+                class="text-secondary-fixed font-label-md flex items-center gap-xs hover:gap-sm transition-all"
+                href="#"
+              >
+                KHÁM PHÁ SÂN
+                <span class="material-symbols-outlined text-sm"
+                  >arrow_forward</span
+                >
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- Featured Courts -->
+      <section class="bg-surface-container py-xl">
+        <div
+          class="px-gutter max-w-container-max mx-auto transition-all duration-700 opacity-100 translate-y-0"
+        >
+          <div class="flex items-end justify-between mb-lg">
+            <div>
+              <span
+                class="text-secondary font-label-md tracking-widest uppercase"
+                >Danh sách cao cấp</span
+              >
+              <h2
+                class="font-headline-lg text-headline-lg text-primary uppercase"
+              >
+                SÂN ĐẤU NỔI BẬT
+              </h2>
+            </div>
+            <button class="text-primary font-label-md hover:underline">
+              Xem tất cả
+            </button>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-lg">
+            <!-- Court Card 1 -->
+            <div
+              class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:translate-y-[-4px] transition-all border border-outline-variant/30"
+            >
+              <div class="relative h-48">
+                <img
+                  alt="Elite tennis arena"
+                  class="w-full h-full object-cover"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuAU7jKLxzfCFjcAik7tZLAVjWUcYm07kIjts70S0nQYDcJ8k7RCniSilRacn2vliRapCnBatqMMeuGbNwi0iengg5XaYiloVzhRlrJzxJYMrsMs-qYQ10AdcSKeVJZA7HmFE5_peQAZVae0QbivJejD6J-h7mWWUUo4DMjJBMgGGxq1UK96bpY12Vp68HoJ4Ig_sdpiFUXnjdWv3QKSZScS9o4aSct69VweDsvwKuWQrQ-uEF3SG1XnXg"
+                />
+              </div>
+              <div class="p-md">
+                <div class="flex justify-between mb-xs items-center">
+                  <h4 class="font-headline-md text-headline-md text-on-surface">
+                    The Grand Slam Hub
+                  </h4>
+                  <div class="flex items-center text-secondary gap-xs">
+                    <span class="material-symbols-outlined text-sm">star</span>
+                    <span class="text-label-sm ml-1">4.9</span>
+                  </div>
+                </div>
+                <p
+                  class="text-on-surface-variant font-body-md text-sm mb-md flex items-center gap-xs"
+                >
+                  <span class="material-symbols-outlined text-sm"
+                    >location_on</span
+                  >
+                  Quận 1, TP. HCM
+                </p>
+                <div
+                  class="flex justify-between items-center border-t border-outline-variant pt-md"
+                >
+                  <span class="font-headline-md text-primary"
+                    >100.000 VNĐ<span
+                      class="text-label-sm text-on-surface-variant font-normal"
+                      >/ giờ</span
+                    ></span
+                  >
+                  <button
+                    class="bg-primary text-on-primary px-md py-sm rounded-lg font-label-md hover:bg-primary-container transition-colors active:scale-95"
+                  >
+                    ĐẶT NGAY
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Court Card 2 -->
+            <div
+              class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:translate-y-[-4px] transition-all border border-outline-variant/30"
+            >
+              <div class="relative h-48">
+                <img
+                  alt="Badminton hall"
+                  class="w-full h-full object-cover"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1S901wjCTnL7JjN9X-1PIKwxqahSLo088xNGJd_MQTjzKL4OOExKDc1jHCdMluq_U13Ewg8frAS5li2dkVSqZs7ZlEtni0wTPGgsduaP1Zya-Yfmzh16B8IaxHpZ4cbiMM_IXvMPmtg2NQWlm4YZ35H0LtJUPTQEDTZ4N3q2rswLEMAakUx-5VL8CwiPsIxmYu7sb3zdVB93zXYvA0sq_aWbxMgktftkP0wSZ4Sm8xu_fW7uRFb5pZQ"
+                />
+              </div>
+              <div class="p-md">
+                <div class="flex justify-between mb-xs items-center">
+                  <h4 class="font-headline-md text-headline-md text-on-surface">
+                    Elite Shuttle Center
+                  </h4>
+                  <div class="flex items-center text-secondary">
+                    <span class="material-symbols-outlined text-sm">star</span>
+                    <span class="text-label-sm ml-1">4.8</span>
+                  </div>
+                </div>
+                <p
+                  class="text-on-surface-variant font-body-md text-sm mb-md flex items-center gap-xs"
+                >
+                  <span class="material-symbols-outlined text-sm"
+                    >location_on</span
+                  >
+                  Quận 7, TP. HCM
+                </p>
+                <div
+                  class="flex justify-between items-center border-t border-outline-variant pt-md"
+                >
+                  <span class="font-headline-md text-primary"
+                    >100.000 VNĐ<span
+                      class="text-label-sm text-on-surface-variant font-normal"
+                      >/ giờ</span
+                    ></span
+                  >
+                  <button
+                    class="bg-primary text-on-primary px-md py-sm rounded-lg font-label-md hover:bg-primary-container transition-colors active:scale-95"
+                  >
+                    ĐẶT NGAY
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Court Card 3 -->
+            <div
+              class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:translate-y-[-4px] transition-all border border-outline-variant/30"
+            >
+              <div class="relative h-48">
+                <img
+                  alt="Rooftop tennis court"
+                  class="w-full h-full object-cover"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuCSXrw3sCR0QCk121y4j3yx5oIBT0pfRHpcdpbiZSv1Rd9Vk2SkNvdIOYOqXTGGWIWhx-WMVtSJVeKBsHIIPPPuHm_FjotwCgARurBRoIuqb_kQLmsNBntCtkqJXUUZ73RXWyaSpfvlhPrGFV-zRpYhKhPsqRCBWqxi2HQFtg_A_TeJ3_nL9nyvLjW36wHwKI8YeRIMfm06t1sURm_KoljfbIL_BStUfKW2xCnP1ZZ80vF2bmVRj9V3GQ"
+                />
+              </div>
+              <div class="p-md">
+                <div class="flex justify-between mb-xs items-center">
+                  <h4 class="font-headline-md text-headline-md text-on-surface">
+                    Skyline Tennis
+                  </h4>
+                  <div class="flex items-center text-secondary">
+                    <span class="material-symbols-outlined text-sm">star</span>
+                    <span class="text-label-sm ml-1">5.0</span>
+                  </div>
+                </div>
+                <p
+                  class="text-on-surface-variant font-body-md text-sm mb-md flex items-center gap-xs"
+                >
+                  <span class="material-symbols-outlined text-sm"
+                    >location_on</span
+                  >
+                  Ba Đình, Hà Nội
+                </p>
+                <div
+                  class="flex justify-between items-center border-t border-outline-variant pt-md"
+                >
+                  <span class="font-headline-md text-primary"
+                    >100.000 VNĐ<span
+                      class="text-label-sm text-on-surface-variant font-normal"
+                      >/ giờ</span
+                    ></span
+                  >
+                  <button
+                    class="bg-primary text-on-primary px-md py-sm rounded-lg font-label-md hover:bg-primary-container transition-colors active:scale-95"
+                  >
+                    ĐẶT NGAY
+                  </button>
+                </div>
+              </div>
+            </div>
+            <!-- Court Card 4 -->
+            <div
+              class="bg-surface-container-lowest rounded-xl overflow-hidden group hover:translate-y-[-4px] transition-all border border-outline-variant/30"
+            >
+              <div class="relative h-48">
+                <img
+                  alt="Pickleball court"
+                  class="w-full h-full object-cover"
+                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtymX8hGn7Bb31OLAfdaa1dgXUhigJN-CwpmKyvEXzKOSf19LT-KXWTOFBkpge90rpkPTxJLJ3Ql1P-fLIjTfPjPDOuruUJTkYwt3jx2CzFU0GLbNe7YnKO1xBM-RRqiYoDjL0ZVKrEpnoE1H-DGvifE6eqBObOHOoDE1x4BaBPF4MoFkDcZLvqno7rR89owSbwch0JQkjc8lwOnXGGOWeY7IvFe2gP0Myy7wgIoOkkvXYa_qKciB4Lg"
+                />
+              </div>
+              <div class="p-md">
+                <div class="flex justify-between mb-xs items-center">
+                  <h4 class="font-headline-md text-headline-md text-on-surface">
+                    Pickleball Palms
+                  </h4>
+                  <div class="flex items-center text-secondary">
+                    <span class="material-symbols-outlined text-sm">star</span>
+                    <span class="text-label-sm ml-1">4.7</span>
+                  </div>
+                </div>
+                <p
+                  class="text-on-surface-variant font-body-md text-sm mb-md flex items-center gap-xs"
+                >
+                  <span class="material-symbols-outlined text-sm"
+                    >location_on</span
+                  >
+                  Cầu Giấy, Hà Nội
+                </p>
+                <div
+                  class="flex justify-between items-center border-t border-outline-variant pt-md"
+                >
+                  <span class="font-headline-md text-primary"
+                    >100.000 VNĐ<span
+                      class="text-label-sm text-on-surface-variant font-normal"
+                      >/ giờ</span
+                    ></span
+                  >
+                  <button
+                    class="bg-primary text-on-primary px-md py-sm rounded-lg font-label-md hover:bg-primary-container transition-colors active:scale-95"
+                  >
+                    ĐẶT NGAY
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- How It Works -->
+      <section class="py-xl px-gutter max-w-container-max mx-auto text-center">
+        <h2
+          class="font-headline-lg text-headline-lg text-primary mb-xl uppercase"
+        >
+          RA SÂN CHỈ VỚI 3 BƯỚC
+        </h2>
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 gap-xl relative transition-all duration-700 opacity-100 translate-y-0"
+        >
+          <!-- Line Decor -->
+          <div
+            class="hidden md:block absolute top-12 left-1/4 right-1/4 h-[2px] bg-outline-variant/30 -z-10"
+          ></div>
+          <div class="flex flex-col items-center">
+            <div
+              class="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-on-primary mb-md shadow-lg"
+            >
+              <span class="material-symbols-outlined text-4xl">search</span>
+            </div>
+            <h3 class="font-headline-md text-headline-md mb-sm">Tìm kiếm</h3>
+            <p class="text-on-surface-variant max-w-xs">
+              Lọc theo môn thể thao, loại sân và địa điểm để tìm thấy sân đấu lý
+              tưởng của bạn.
+            </p>
+          </div>
+          <div class="flex flex-col items-center">
+            <div
+              class="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-on-primary mb-md shadow-lg"
+            >
+              <span class="material-symbols-outlined text-4xl"
+                >event_available</span
+              >
+            </div>
+            <h3 class="font-headline-md text-headline-md mb-sm">Giữ chỗ</h3>
+            <p class="text-on-surface-variant max-w-xs">
+              Chọn khung giờ phù hợp và thanh toán bảo mật tức thì qua hệ thống
+              của chúng tôi.
+            </p>
+          </div>
+          <div class="flex flex-col items-center">
+            <div
+              class="w-20 h-20 rounded-full bg-primary flex items-center justify-center text-on-primary mb-md shadow-lg"
+            >
+              <span class="material-symbols-outlined text-4xl">sports</span>
+            </div>
+            <h3 class="font-headline-md text-headline-md mb-sm">Trải nghiệm</h3>
+            <p class="text-on-surface-variant max-w-xs">
+              Đến sân, quét mã QR và bắt đầu trận đấu đỉnh cao của bạn ngay lập
+              tức.
+            </p>
+          </div>
+        </div>
+      </section>
+      <!-- CTA Section -->
+      <section
+        class="py-xl text-on-surface relative overflow-hidden bg-surface-container-low border-t border-outline-variant/30"
+      >
+        <div
+          class="absolute right-0 top-0 w-1/3 h-full opacity-5 transition-all duration-700 translate-y-0 opacity-100"
+        >
+          <span
+            class="material-symbols-outlined text-[300px] leading-none -translate-y-12 text-primary"
+            >sports_tennis</span
+          >
+        </div>
+        <div
+          class="px-gutter max-w-container-max mx-auto relative z-10 text-center transition-all duration-700 opacity-100 translate-y-0"
+        >
+          <h2
+            class="font-headline-xl text-headline-xl mb-md uppercase text-primary"
+          >
+            BẠN ĐÃ SẴN SÀNG LÀM CHỦ?
+          </h2>
+          <p
+            class="font-body-lg text-body-lg mb-xl max-w-xl mx-auto text-on-surface-variant"
+          >
+            Gia nhập cộng đồng hơn 10.000 người chơi tin dùng Courtify cho các
+            trận giao hữu và giải đấu hàng tuần.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-md justify-center">
+            <button
+              class="bg-primary text-on-primary px-xl py-md rounded-lg font-label-md hover:bg-primary-container transition-all active:scale-95 shadow-lg"
+            >
+              ĐĂNG KÝ MIỄN PHÍ
+            </button>
+            <button
+              class="border border-primary text-primary px-xl py-md rounded-lg font-label-md hover:bg-primary/5 transition-all active:scale-95 hover:shadow-md"
+            >
+              XEM GÓI THÀNH VIÊN
+            </button>
+          </div>
+        </div>
+      </section>
+    </main>
+    <!-- Footer -->
+    <footer class="w-full py-xl bg-primary dark:bg-primary-container">
+      <div class="max-w-container-max mx-auto px-gutter">
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-xl mb-xl"
+        >
+          <div class="space-y-md">
+            <span class="font-headline-md text-headline-md text-secondary-fixed"
+              >Courtify</span
+            >
+            <p class="text-on-primary/60 text-sm">
+              Nền tảng đặt sân và quản lý vận động viên tiên tiến nhất thế giới.
+              Kết nối đam mê, nâng tầm trải nghiệm.
+            </p>
+            <div class="flex gap-md">
+              <a
+                class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-on-primary/10 transition-all text-on-primary"
+                href="#"
+                ><svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                  <path
+                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                  ></path></svg></a
+              ><a
+                class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-on-primary/10 transition-all text-on-primary"
+                href="#"
+                ><svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                  ></path></svg></a
+              ><a
+                class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-on-primary/10 transition-all text-on-primary font-bold text-xs"
+                href="#"
+                >Zalo</a
+              >
+            </div>
+          </div>
+          <div class="flex flex-col gap-sm">
+            <span
+              class="text-on-primary font-bold text-sm uppercase tracking-wider"
+              >Về Courtify</span
+            ><a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Về chúng tôi</a
+            ><a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Điều khoản dịch vụ</a
+            ><a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Chính sách bảo mật</a
+            >
+          </div>
+          <div class="flex flex-col gap-sm">
+            <span
+              class="text-on-primary font-bold text-sm uppercase tracking-wider"
+              >Khám phá</span
+            ><a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Tennis</a
+            ><a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Cầu lông</a
+            ><a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Pickleball</a
+            >
+          </div>
+          <div class="flex flex-col gap-sm">
+            <span
+              class="text-on-primary font-bold text-sm uppercase tracking-wider"
+              >Hỗ trợ</span
+            ><a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Câu hỏi thường gặp</a
+            ><a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Liên hệ</a
+            >
+            <div class="mt-md space-y-xs">
+              <p class="text-on-primary/80 text-sm flex items-center gap-xs">
+                <span class="material-symbols-outlined text-sm">mail</span>
+                contact@courtify.vn
+              </p>
+              <p class="text-on-primary/80 text-sm flex items-center gap-xs">
+                <span class="material-symbols-outlined text-sm">call</span> 1900
+                1234
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border-t border-on-primary/10 pt-lg flex flex-col md:flex-row justify-between items-center gap-md"
+        >
+          <p class="text-on-primary/60 text-sm">
+            © 2024 Courtify - Đặt sân chuyên nghiệp. Bảo lưu mọi quyền.
+          </p>
+        </div>
+      </div>
+    </footer>
+    <script>
+      // Micro-interaction for input hover/focus states
+      document.querySelectorAll("input, select").forEach((el) => {
+        el.addEventListener("focus", () => {
+          const icon = el.parentElement.querySelector(
+            ".material-symbols-outlined",
+          );
+          if (icon) icon.style.color = "#1E3A8A";
+        });
+        el.addEventListener("blur", () => {
+          const icon = el.parentElement.querySelector(
+            ".material-symbols-outlined",
+          );
+          if (icon) icon.style.color = "#757682";
+        });
+      });
+
+      // Simple scroll animation observer
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("opacity-100", "translate-y-0");
+              entry.target.classList.remove("opacity-0", "translate-y-8");
+            }
+          });
+        },
+        { threshold: 0.1 },
+      );
+
+      document.querySelectorAll("section > div").forEach((section) => {
+        section.classList.add(
+          "transition-all",
+          "duration-700",
+          "opacity-0",
+          "translate-y-8",
+        );
+        observer.observe(section);
+      });
+    </script>
+  </body>
+</html>

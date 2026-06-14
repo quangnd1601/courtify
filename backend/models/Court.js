@@ -29,6 +29,10 @@ const CourtSchema = new Schema(
       enum: ["active", "maintenance", "inactive"],
       default: "active",
     },
+    booking_count: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: { createdAt: "created_at", updatedAt: "updated_at" },

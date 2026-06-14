@@ -1,8 +1,32 @@
 const SportsCenterModel = require("../models/SportsCenter");
 
-let getAll = async () => {
-  const centers = await SportsCenterModel.find().populate("owner_id", "-password").populate("sport_id");
-  return centers;
+let getAll = async (options = {}) => {
+  const { sort, limit } = options;
+
+  if (sort === "newest") {
+    let query = SportsCenterModel.find().populate("owner_id", "-password").populate("sport_id").sort({ created_at: -1 });
+    if (limit) {
+      query = query.limit(parseInt(limit));
+    }
+    return await query;
+  }
+
+  if (sort === "most-booked") {
+    let query = SportsCenterModel.find()
+      .populate("owner_id", "-password")
+      .populate("sport_id")
+      .sort({ booking_count: -1, created_at: -1 });
+    if (limit) {
+      query = query.limit(parseInt(limit));
+    }
+    return await query;
+  }
+
+  let query = SportsCenterModel.find().populate("owner_id", "-password").populate("sport_id");
+  if (limit) {
+    query = query.limit(parseInt(limit));
+  }
+  return await query;
 };
 
 let getOne = async (id) => {
