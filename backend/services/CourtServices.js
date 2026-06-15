@@ -1,10 +1,14 @@
 const CourtModel = require("../models/Court");
 
 let getAll = async (options = {}) => {
-  const { sort, limit } = options;
+  const { sort, limit, sport_center_id } = options;
+  const filter = {};
+  if (sport_center_id) {
+    filter.sport_center_id = sport_center_id;
+  }
 
   if (sort === "newest") {
-    let query = CourtModel.find().populate("sport_center_id").sort({ created_at: -1 });
+    let query = CourtModel.find(filter).populate("sport_center_id").sort({ created_at: -1 });
     if (limit) {
       query = query.limit(parseInt(limit));
     }
@@ -12,7 +16,7 @@ let getAll = async (options = {}) => {
   }
 
   if (sort === "most-booked") {
-    let query = CourtModel.find()
+    let query = CourtModel.find(filter)
       .populate("sport_center_id")
       .sort({ booking_count: -1, created_at: -1 });
     if (limit) {
@@ -21,7 +25,7 @@ let getAll = async (options = {}) => {
     return await query;
   }
 
-  let query = CourtModel.find().populate("sport_center_id");
+  let query = CourtModel.find(filter).populate("sport_center_id");
   if (limit) {
     query = query.limit(parseInt(limit));
   }

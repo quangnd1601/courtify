@@ -146,10 +146,103 @@ const deleteBooking = async (req, res, next) => {
   }
 };
 
+/**
+ * Tách 1 pricing entry (có thể là dải nhiều tiếng) thành từng slot 1 giờ.
+ * Ví dụ: { start_time: "05:00", end_time: "17:00", price: 100000 }
+ *   → [{ start_time: "05:00", end_time: "06:00", price: 100000 },
+ *      { start_time: "06:00", end_time: "07:00", price: 100000 }, ...]
+ */
+const expandPricingToHourlySlots = (pricing) => {
+  const hourlySlots = [];
+
+  for (const entry of pricing) {
+    const [startH, startM] = entry.start_time.split(":").map(Number);
+    const [endH, endM] = entry.end_time.split(":").map(Number);
+
+    // Tổng phút từ 00:00
+    let currentMinutes = startH * 60 + startM;
+    const endMinutes = endH * 60 + endM;
+
+    while (currentMinutes + 60 <= endMinutes) {
+      const slotStartH = String(Math.floor(currentMinutes / 60)).padStart(2, "0");
+      const slotStartM = String(currentMinutes % 60).padStart(2, "0");
+      const slotEndH = String(Math.floor((currentMinutes + 60) / 60)).padStart(2, "0");
+      const slotEndM = String((currentMinutes + 60) % 60).padStart(2, "0");
+
+      hourlySlots.push({
+        start_time: `${slotStartH}:${slotStartM}`,
+        end_time: `${slotEndH}:${slotEndM}`,
+        price: entry.price,
+      });
+
+      currentMinutes += 60;
+    }
+  }
+
+  return hourlySlots;
+};
+
+const getAvailableSlots = async (req, res, next) => {
+  try {
+    const { court_id, date } = req.query;
+
+    if (!court_id || !date) {
+      return res.status(400).json({ message: "Cần truyền court_id và date" });
+    }
+    if (!mongoose.Types.ObjectId.isValid(court_id)) {
+      return res.status(400).json({ message: "court_id không hợp lệ" });
+    }
+
+    // Lấy thông tin sân → lấy sport_center_id
+    const CourtModel = require("../models/Court");
+    const court = await CourtModel.findById(court_id);
+    if (!court) {
+      return res.status(404).json({ message: "Không tìm thấy sân" });
+    }
+
+    // Lấy bảng giá từ SportsCenter cha
+    const SportsCenterModel = require("../models/SportsCenter");
+    const center = await SportsCenterModel.findById(court.sport_center_id);
+    if (!center || !center.pricing || center.pricing.length === 0) {
+      return res.status(200).json({ slots: [] });
+    }
+
+    // Expand tất cả pricing entries thành từng slot 1 giờ
+    const allHourlySlots = expandPricingToHourlySlots(center.pricing);
+
+    // Lấy tất cả booking đã đặt cho sân này vào ngày này (không bị huỷ)
+    const BookingModel = require("../models/Booking");
+    const bookings = await BookingModel.find({
+      court_id: court_id,
+      booking_date: new Date(date),
+      booking_status: { $ne: "cancelled" },
+    });
+
+    // Tập hợp start_time đã bị đặt
+    const bookedStartTimes = new Set();
+    bookings.forEach((b) => {
+      b.slots.forEach((s) => bookedStartTimes.add(s.start_time));
+    });
+
+    // Xác định trạng thái của từng slot (đã bị đặt hay chưa)
+    const slotsWithStatus = allHourlySlots.map((slot) => ({
+      ...slot,
+      isBooked: bookedStartTimes.has(slot.start_time),
+    }));
+
+    res.status(200).json({ slots: slotsWithStatus });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi server", error: error.message });
+  }
+};
+
+
 module.exports = {
   getAllBookings,
   getBookingById,
   createBooking,
   updateBooking,
   deleteBooking,
+  getAvailableSlots,
 };
+

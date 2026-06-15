@@ -1,0 +1,18 @@
+/* Custom styles for profile page */
+
+.booking-status-tab {
+  opacity: 0.85;
+  transition: opacity 0.2s, color 0.2s;
+}
+.booking-status-tab.active {
+  opacity: 1;
+  font-weight: 600;
+  background-color: var(--primary-100);
+}
+
+/* Ensure sidebar has minimum width on mobile */
+@media (max-width: 640px) {
+  aside.col-span-12 {
+    min-width: 200px; /* Adjust as needed */
+  }
+}

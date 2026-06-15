@@ -8,5 +8,7 @@ export interface IUser {
   status: "active" | "inactive";
   created_at: string;
   updated_at: string;
-  avatar_url: string;
+  avatar?: string;
+  avatar_url?: string;
+  password?: string;
 }

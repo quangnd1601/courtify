@@ -38,7 +38,7 @@ const updateUser = async (req, res, next) => {
     }
 
     // Check email 
-    const { email } = req.body;
+    const { email, password } = req.body;
     if (email) {
       const existingUsers = await UserService.getAll();
       const emailExists = existingUsers.find((u) => u.email === email && u._id.toString() !== userId);
@@ -47,7 +47,14 @@ const updateUser = async (req, res, next) => {
       }
     }
 
-    const user = await UserService.update(userId, req.body);
+    const updateData = { ...req.body };
+    if (password) {
+      const bcrypt = require("bcryptjs");
+      const salt = bcrypt.genSaltSync(10);
+      updateData.password = bcrypt.hashSync(password, salt);
+    }
+
+    const user = await UserService.update(userId, updateData);
     if (!user) {
       return res.status(404).json({ message: "Không tìm thấy người dùng" });
     }

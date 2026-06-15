@@ -124,6 +124,38 @@ const UserService = {
             throw error;
         }
     },
+    login: async (credentials) => {
+        const data = await handleFetch(`${config.BASE_URL}/users/login`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(credentials),
+        });
+        if (data.user) {
+            localStorage.setItem("courtify_user", JSON.stringify(data.user));
+        }
+        return data;
+    },
+    register: async (userData) => {
+        return await handleFetch(`${config.BASE_URL}/users/register`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(userData),
+        });
+    },
+    getCurrentUser: () => {
+        const userStr = localStorage.getItem("courtify_user");
+        if (!userStr)
+            return null;
+        try {
+            return JSON.parse(userStr);
+        }
+        catch {
+            return null;
+        }
+    },
+    logout: () => {
+        localStorage.removeItem("courtify_user");
+    }
 };
 export default UserService;
 //# sourceMappingURL=UserService.js.map
