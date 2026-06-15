@@ -58,6 +58,7 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public"))); // Serve static files from /public
 
 // 4 . cấu hình view Engine
 var configViewEngine = require("./config/viewEngine");

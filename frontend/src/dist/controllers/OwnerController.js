@@ -38,7 +38,8 @@ export default class OwnerController {
             const ownerCourts = allCourts.filter((c) => centerIds.has(c.sport_center_id));
             const ownerCourtsIds = new Set(ownerCourts.map((c) => c._id));
             // Filter bookings belonging to owner's centers or courts
-            const ownerBookings = allBookings.filter((b) => (b.sport_center_id && centerIds.has(b.sport_center_id._id || b.sport_center_id)) ||
+            const ownerBookings = allBookings.filter((b) => (b.sport_center_id &&
+                centerIds.has(b.sport_center_id._id || b.sport_center_id)) ||
                 (b.court_id && ownerCourtsIds.has(b.court_id._id || b.court_id)));
             // Calculate stats
             const completedBookings = ownerBookings.filter((b) => b.booking_status === "completed");
@@ -48,7 +49,8 @@ export default class OwnerController {
             const totalRevenue = completedBookings.reduce((sum, b) => sum + (b.total_price || 0), 0);
             // Sort bookings by created date desc to get recent ones
             const recentBookings = [...ownerBookings]
-                .sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
+                .sort((a, b) => new Date(b.created_at || 0).getTime() -
+                new Date(a.created_at || 0).getTime())
                 .slice(0, 5);
             const stats = {
                 totalRevenue,
@@ -131,10 +133,14 @@ export default class OwnerController {
                         method: "POST",
                         body: formData,
                     });
+                    if (!res.ok) {
+                        throw new Error(`Upload failed: ${res.status}`);
+                    }
                     const data = await res.json();
                     if (data.status === 1 && data.url) {
                         thumbnailHiddenInput.value = data.url;
-                        thumbnailPreview.src = `http://localhost:8080${data.url}`;
+                        // Construct full URL from API_ORIGIN + relative URL
+                        thumbnailPreview.src = `${API_ORIGIN}${data.url}`;
                     }
                     else {
                         alert("Upload ảnh thất bại!");
@@ -169,6 +175,9 @@ export default class OwnerController {
                         method: "POST",
                         body: formData,
                     });
+                    if (!res.ok) {
+                        throw new Error(`Upload failed: ${res.status}`);
+                    }
                     const data = await res.json();
                     if (data.status === 1 && data.urls) {
                         let galleryUrls = [];
@@ -336,7 +345,9 @@ export default class OwnerController {
             // Filter courts that belong to the owner's centers
             const centerIds = new Set(centers.map((c) => c._id));
             const ownerCourts = allCourts.filter((c) => {
-                const scId = typeof c.sport_center_id === "object" && c.sport_center_id ? c.sport_center_id._id : c.sport_center_id;
+                const scId = typeof c.sport_center_id === "object" && c.sport_center_id
+                    ? c.sport_center_id._id
+                    : c.sport_center_id;
                 return centerIds.has(scId);
             });
             app.innerHTML = OwnerView.renderCourtsList(ownerCourts, centers);
@@ -395,10 +406,13 @@ export default class OwnerController {
                         method: "POST",
                         body: formData,
                     });
+                    if (!res.ok) {
+                        throw new Error(`Upload failed: ${res.status}`);
+                    }
                     const data = await res.json();
                     if (data.status === 1 && data.url) {
                         thumbnailHiddenInput.value = data.url;
-                        thumbnailPreview.src = `http://localhost:8080${data.url}`;
+                        thumbnailPreview.src = `${API_ORIGIN}${data.url}`;
                     }
                     else {
                         alert("Upload ảnh thất bại!");
@@ -475,10 +489,12 @@ export default class OwnerController {
             const centerIds = new Set(centers.map((c) => c._id));
             const ownerCourts = allCourts.filter((c) => centerIds.has(c.sport_center_id));
             const ownerCourtsIds = new Set(ownerCourts.map((c) => c._id));
-            const ownerBookings = allBookings.filter((b) => (b.sport_center_id && centerIds.has(b.sport_center_id._id || b.sport_center_id)) ||
+            const ownerBookings = allBookings.filter((b) => (b.sport_center_id &&
+                centerIds.has(b.sport_center_id._id || b.sport_center_id)) ||
                 (b.court_id && ownerCourtsIds.has(b.court_id._id || b.court_id)));
             // Sort bookings by date desc
-            ownerBookings.sort((a, b) => new Date(b.booking_date || 0).getTime() - new Date(a.booking_date || 0).getTime());
+            ownerBookings.sort((a, b) => new Date(b.booking_date || 0).getTime() -
+                new Date(a.booking_date || 0).getTime());
             app.innerHTML = OwnerView.renderBookings(ownerBookings);
             this.initBookingsEvents();
         }
@@ -528,7 +544,9 @@ export default class OwnerController {
                                 : "Hủy booking này?";
                         if (confirm(confirmMsg)) {
                             try {
-                                await BookingService.update(bookingId, { booking_status: action });
+                                await BookingService.update(bookingId, {
+                                    booking_status: action,
+                                });
                                 alert("Cập nhật trạng thái booking thành công!");
                                 this.bookings();
                             }
@@ -551,7 +569,11 @@ export default class OwnerController {
             const allVouchers = await VoucherService.getAll();
             const ownerId = this.getOwnerId();
             // Filter vouchers owned by this owner
-            const ownerVouchers = allVouchers.filter((v) => v.owner_id === ownerId);
+            const ownerVouchers = allVouchers.filter((v) => {
+                // Handle both object and string types for owner_id
+                const vOwnerId = typeof v.owner_id === "object" && v.owner_id !== null ? v.owner_id._id : v.owner_id;
+                return vOwnerId === ownerId;
+            });
             app.innerHTML = OwnerView.renderVouchersList(ownerVouchers);
         }
         catch (error) {
@@ -598,14 +620,19 @@ export default class OwnerController {
                 e.preventDefault();
                 try {
                     const sport_center_id = document.getElementById("voucher-center").value;
-                    const code = document.getElementById("voucher-code").value.toUpperCase().trim();
+                    const code = document.getElementById("voucher-code").value
+                        .toUpperCase()
+                        .trim();
                     const description = document.getElementById("voucher-description").value;
-                    const discount_percent = parseInt(document.getElementById("voucher-discount").value);
+                    const discount_percent = parseInt(document.getElementById("voucher-discount")
+                        .value);
                     const max_discount = parseFloat(document.getElementById("voucher-max-discount").value);
-                    const min_order = parseFloat(document.getElementById("voucher-min-order").value) || 0;
+                    const min_order = parseFloat(document.getElementById("voucher-min-order")
+                        .value) || 0;
                     const start_date = document.getElementById("voucher-start").value;
                     const end_date = document.getElementById("voucher-end").value;
-                    const usage_limit = parseInt(document.getElementById("voucher-limit").value);
+                    const usage_limit = parseInt(document.getElementById("voucher-limit")
+                        .value);
                     const status = document.getElementById("voucher-status").value;
                     const owner_id = this.getOwnerId();
                     const voucherData = {

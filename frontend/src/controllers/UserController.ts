@@ -139,13 +139,17 @@ export default class UserController {
     if (form) {
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const email = (document.getElementById("login-email") as HTMLInputElement).value;
-        const password = (document.getElementById("login-password") as HTMLInputElement).value;
+        const email = (
+          document.getElementById("login-email") as HTMLInputElement
+        ).value;
+        const password = (
+          document.getElementById("login-password") as HTMLInputElement
+        ).value;
 
         try {
           await UserService.login({ email, password });
           alert("Đăng nhập thành công!");
-          
+
           // Trở lại trang trước đó nếu được yêu cầu đặt sân
           const pendingBooking = sessionStorage.getItem("pending_booking");
           if (pendingBooking) {
@@ -154,7 +158,10 @@ export default class UserController {
             window.location.href = "?";
           }
         } catch (error: any) {
-          alert(error.message || "Đăng nhập thất bại. Vui lòng kiểm tra lại email/mật khẩu.");
+          alert(
+            error.message ||
+            "Đăng nhập thất bại. Vui lòng kiểm tra lại email/mật khẩu.",
+          );
         }
       });
     }
@@ -171,11 +178,23 @@ export default class UserController {
     if (form) {
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const name = (document.getElementById("register-name") as HTMLInputElement).value;
-        const email = (document.getElementById("register-email") as HTMLInputElement).value;
-        const phone = (document.getElementById("register-phone") as HTMLInputElement).value;
-        const password = (document.getElementById("register-password") as HTMLInputElement).value;
-        const confirm_password = (document.getElementById("register-confirm-password") as HTMLInputElement).value;
+        const name = (
+          document.getElementById("register-name") as HTMLInputElement
+        ).value;
+        const email = (
+          document.getElementById("register-email") as HTMLInputElement
+        ).value;
+        const phone = (
+          document.getElementById("register-phone") as HTMLInputElement
+        ).value;
+        const password = (
+          document.getElementById("register-password") as HTMLInputElement
+        ).value;
+        const confirm_password = (
+          document.getElementById(
+            "register-confirm-password",
+          ) as HTMLInputElement
+        ).value;
 
         if (password !== confirm_password) {
           alert("Mật khẩu và xác nhận mật khẩu không trùng khớp!");
@@ -183,7 +202,14 @@ export default class UserController {
         }
 
         try {
-          await UserService.register({ name, email, phone, password, confirm_password, role: "user" });
+          await UserService.register({
+            name,
+            email,
+            phone,
+            password,
+            confirm_password,
+            role: "user",
+          });
           alert("Đăng ký tài khoản thành công! Hãy tiến hành đăng nhập.");
           window.location.href = "?ctrl=user&act=login";
         } catch (error: any) {
@@ -206,7 +232,8 @@ export default class UserController {
     }
 
     const bookingData = JSON.parse(pendingStr);
-    const centerName = sessionStorage.getItem("pending_center_name") || "Cụm sân thể thao";
+    const centerName =
+      sessionStorage.getItem("pending_center_name") || "Cụm sân thể thao";
     const courtName = sessionStorage.getItem("pending_court_name") || "Sân đấu";
 
     app.innerHTML = AuthView.renderPayment(bookingData, centerName, courtName);
@@ -216,15 +243,31 @@ export default class UserController {
       bookingData.subtotal = bookingData.total_price;
     }
 
-    const cancelBtn = document.getElementById("cancel-payment-btn") as HTMLButtonElement;
-    const confirmBtn = document.getElementById("confirm-payment-btn") as HTMLButtonElement;
-    const applyVoucherBtn = document.getElementById("apply-voucher-btn") as HTMLButtonElement;
-    const voucherInput = document.getElementById("voucher-code-input") as HTMLInputElement;
-    const voucherMessage = document.getElementById("voucher-message") as HTMLDivElement;
+    const cancelBtn = document.getElementById(
+      "cancel-payment-btn",
+    ) as HTMLButtonElement;
+    const confirmBtn = document.getElementById(
+      "confirm-payment-btn",
+    ) as HTMLButtonElement;
+    const applyVoucherBtn = document.getElementById(
+      "apply-voucher-btn",
+    ) as HTMLButtonElement;
+    const voucherInput = document.getElementById(
+      "voucher-code-input",
+    ) as HTMLInputElement;
+    const voucherMessage = document.getElementById(
+      "voucher-message",
+    ) as HTMLDivElement;
 
-    const discountRow = document.getElementById("discount-row") as HTMLDivElement;
-    const discountDisplay = document.getElementById("payment-discount") as HTMLSpanElement;
-    const totalDisplay = document.getElementById("payment-total") as HTMLSpanElement;
+    const discountRow = document.getElementById(
+      "discount-row",
+    ) as HTMLDivElement;
+    const discountDisplay = document.getElementById(
+      "payment-discount",
+    ) as HTMLSpanElement;
+    const totalDisplay = document.getElementById(
+      "payment-total",
+    ) as HTMLSpanElement;
 
     if (applyVoucherBtn && voucherInput && voucherMessage) {
       applyVoucherBtn.addEventListener("click", async () => {
@@ -236,15 +279,17 @@ export default class UserController {
         }
 
         voucherMessage.textContent = "Đang kiểm tra...";
-        voucherMessage.className = "text-xs mt-xs text-on-surface-variant block";
+        voucherMessage.className =
+          "text-xs mt-xs text-on-surface-variant block";
         applyVoucherBtn.disabled = true;
 
         try {
           const vouchers = await VoucherService.getAll();
-          const voucher = vouchers.find(v => v.code.toUpperCase() === code);
+          const voucher = vouchers.find((v) => v.code.toUpperCase() === code);
 
           if (!voucher) {
-            voucherMessage.textContent = "Mã giảm giá không tồn tại hoặc đã hết hạn!";
+            voucherMessage.textContent =
+              "Mã giảm giá không tồn tại hoặc đã hết hạn!";
             voucherMessage.className = "text-xs mt-xs text-error block";
             applyVoucherBtn.disabled = false;
             return;
@@ -271,15 +316,21 @@ export default class UserController {
 
           // Kiểm tra lượt sử dụng
           if (voucher.used_count >= voucher.usage_limit) {
-            voucherMessage.textContent = "Mã giảm giá đã đạt giới hạn lượt sử dụng!";
+            voucherMessage.textContent =
+              "Mã giảm giá đã đạt giới hạn lượt sử dụng!";
             voucherMessage.className = "text-xs mt-xs text-error block";
             applyVoucherBtn.disabled = false;
             return;
           }
 
           // Kiểm tra cụm sân áp dụng
-          if (voucher.sport_center_id !== bookingData.sport_center_id) {
-            voucherMessage.textContent = "Mã giảm giá này không áp dụng cho cụm sân hiện tại!";
+          const voucherCenterId =
+            typeof voucher.sport_center_id === "object"
+              ? (voucher.sport_center_id as any)._id
+              : voucher.sport_center_id;
+          if (voucherCenterId !== bookingData.sport_center_id) {
+            voucherMessage.textContent =
+              "Mã giảm giá này không áp dụng cho cụm sân hiện tại!";
             voucherMessage.className = "text-xs mt-xs text-error block";
             applyVoucherBtn.disabled = false;
             return;
@@ -287,7 +338,9 @@ export default class UserController {
 
           // Kiểm tra giá trị đơn hàng tối thiểu
           if (bookingData.subtotal < voucher.min_order) {
-            const formattedMin = new Intl.NumberFormat("vi-VN").format(voucher.min_order);
+            const formattedMin = new Intl.NumberFormat("vi-VN").format(
+              voucher.min_order,
+            );
             voucherMessage.textContent = `Mã giảm giá chỉ áp dụng cho đơn hàng từ ${formattedMin}đ trở lên!`;
             voucherMessage.className = "text-xs mt-xs text-error block";
             applyVoucherBtn.disabled = false;
@@ -295,7 +348,9 @@ export default class UserController {
           }
 
           // Hợp lệ, tiến hành tính giảm giá
-          let discount = Math.round((bookingData.subtotal * voucher.discount_percent) / 100);
+          let discount = Math.round(
+            (bookingData.subtotal * voucher.discount_percent) / 100,
+          );
           if (discount > voucher.max_discount) {
             discount = voucher.max_discount;
           }
@@ -306,17 +361,21 @@ export default class UserController {
           bookingData.total_price = bookingData.subtotal - discount;
 
           // Cập nhật DOM
-          const formattedDiscount = new Intl.NumberFormat("vi-VN").format(discount);
-          const formattedTotal = new Intl.NumberFormat("vi-VN").format(bookingData.total_price);
+          const formattedDiscount = new Intl.NumberFormat("vi-VN").format(
+            discount,
+          );
+          const formattedTotal = new Intl.NumberFormat("vi-VN").format(
+            bookingData.total_price,
+          );
 
           if (discountRow) discountRow.classList.remove("hidden");
-          if (discountDisplay) discountDisplay.textContent = `-${formattedDiscount}đ`;
+          if (discountDisplay)
+            discountDisplay.textContent = `-${formattedDiscount}đ`;
           if (totalDisplay) totalDisplay.textContent = `${formattedTotal}đ`;
 
           voucherMessage.textContent = `Áp dụng thành công! Đã giảm ${formattedDiscount}đ cho đơn hàng.`;
           voucherMessage.className = "text-xs mt-xs text-success block";
           applyVoucherBtn.disabled = false;
-
         } catch (error) {
           console.error(error);
           voucherMessage.textContent = "Đã xảy ra lỗi khi xác thực voucher!";
@@ -339,9 +398,14 @@ export default class UserController {
 
     if (confirmBtn) {
       confirmBtn.addEventListener("click", async () => {
-        const selectedMethod = document.querySelector<HTMLInputElement>('input[name="payment_method"]:checked')?.value || "cash";
-        const noteInput = document.getElementById("booking-note-input") as HTMLTextAreaElement | null;
-        
+        const selectedMethod =
+          document.querySelector<HTMLInputElement>(
+            'input[name="payment_method"]:checked',
+          )?.value || "cash";
+        const noteInput = document.getElementById(
+          "booking-note-input",
+        ) as HTMLTextAreaElement | null;
+
         // Hoàn thiện thông tin booking trước khi gửi
         const currentUser = UserService.getCurrentUser();
         if (!currentUser) {
@@ -352,8 +416,9 @@ export default class UserController {
 
         bookingData.user_id = currentUser._id; // Thay bằng id user thực đã đăng nhập
         bookingData.payment_method = selectedMethod;
-        bookingData.payment_status = selectedMethod === "momo" ? "paid" : "unpaid";
-        bookingData.booking_status = "confirmed";
+        bookingData.payment_status =
+          selectedMethod === "momo" ? "paid" : "unpaid";
+        bookingData.booking_status = "pending"; // Chờ chủ sân xác nhận
         if (noteInput) {
           bookingData.note = noteInput.value.trim();
         }
@@ -363,14 +428,19 @@ export default class UserController {
 
         try {
           await BookingService.create(bookingData);
-          alert(`Chúc mừng! Bạn đã đặt và thanh toán sân thành công.\nMã đặt sân của bạn: ${bookingData.booking_code}`);
+          alert(
+            `Chúc mừng! Bạn đã đặt sân thành công.\nMã đặt sân của bạn: ${bookingData.booking_code}\n\nĐơn đặt sân đang chờ chủ sân xác nhận`,
+          );
           sessionStorage.removeItem("pending_booking");
           sessionStorage.removeItem("pending_center_name");
           sessionStorage.removeItem("pending_court_name");
-          
+
           window.location.href = "?";
         } catch (error: any) {
-          alert(error.message || "Đặt sân thất bại. Khung giờ này có thể đã bị người khác đặt trước.");
+          alert(
+            error.message ||
+            "Đặt sân thất bại. Khung giờ này có thể đã bị người khác đặt trước.",
+          );
           confirmBtn.disabled = false;
           confirmBtn.textContent = "Thanh toán ngay";
         }
@@ -398,38 +468,49 @@ export default class UserController {
     try {
       // Tải tất cả lịch đặt trước
       const allBookings = await BookingService.getAll();
-      
+
       // Lọc lịch đặt của user hiện tại
-      const myBookings = allBookings.filter(b => {
-        const userIdStr = typeof b.user_id === "object" ? b.user_id?._id : b.user_id;
+      const myBookings = allBookings.filter((b) => {
+        const userIdStr =
+          typeof b.user_id === "object" ? b.user_id?._id : b.user_id;
         return userIdStr === currentUser._id;
       });
 
       // Sắp xếp lịch đặt mới nhất lên đầu
-      myBookings.sort((a, b) => new Date(b.created_at || b.booking_date).getTime() - new Date(a.created_at || a.booking_date).getTime());
+      myBookings.sort(
+        (a, b) =>
+          new Date(b.created_at || b.booking_date).getTime() -
+          new Date(a.created_at || a.booking_date).getTime(),
+      );
 
       // Render giao diện tab
-      app.innerHTML = AuthView.renderProfile(currentUser, myBookings, defaultTab);
+      app.innerHTML = AuthView.renderProfile(
+        currentUser,
+        myBookings,
+        defaultTab,
+      );
 
       // Thiết lập bộ lọc trạng thái đơn hàng (Shopee style)
       const statusTabs = document.querySelectorAll(".booking-status-tab");
       const bookingCards = document.querySelectorAll(".booking-card-item");
       const noBookingsMessage = document.getElementById("no-bookings-message");
 
-      statusTabs.forEach(tab => {
+      statusTabs.forEach((tab) => {
         tab.addEventListener("click", (e) => {
           const clickedTab = e.currentTarget as HTMLButtonElement;
           const status = clickedTab.getAttribute("data-status");
 
           // Update active class on status sub-tabs
-          statusTabs.forEach(t => {
-            t.className = "booking-status-tab py-2 px-md font-bold text-xs uppercase tracking-wider border-b-2 border-transparent text-on-surface-variant hover:text-primary transition-all whitespace-nowrap";
+          statusTabs.forEach((t) => {
+            t.className =
+              "booking-status-tab py-2 px-md font-bold text-xs uppercase tracking-wider border-b-2 border-transparent text-on-surface-variant hover:text-primary transition-all whitespace-nowrap";
           });
-          clickedTab.className = "booking-status-tab py-2 px-md font-bold text-xs uppercase tracking-wider border-b-2 border-primary text-primary transition-all whitespace-nowrap";
+          clickedTab.className =
+            "booking-status-tab py-2 px-md font-bold text-xs uppercase tracking-wider border-b-2 border-primary text-primary transition-all whitespace-nowrap";
 
           // Filter card items
           let visibleCount = 0;
-          bookingCards.forEach(cardEl => {
+          bookingCards.forEach((cardEl) => {
             const card = cardEl as HTMLElement;
             const cardStatus = card.getAttribute("data-status");
             if (status === "all" || cardStatus === status) {
@@ -455,12 +536,23 @@ export default class UserController {
       const tabProfileBtn = document.getElementById("tab-profile-btn");
       const tabPasswordBtn = document.getElementById("tab-password-btn");
       const tabBookingsBtn = document.getElementById("tab-bookings-btn");
-      
-      const tabProfileContent = document.getElementById("tab-profile-content");
-      const tabPasswordContent = document.getElementById("tab-password-content");
-      const tabBookingsContent = document.getElementById("tab-bookings-content");
 
-      if (tabProfileBtn && tabPasswordBtn && tabBookingsBtn && tabProfileContent && tabPasswordContent && tabBookingsContent) {
+      const tabProfileContent = document.getElementById("tab-profile-content");
+      const tabPasswordContent = document.getElementById(
+        "tab-password-content",
+      );
+      const tabBookingsContent = document.getElementById(
+        "tab-bookings-content",
+      );
+
+      if (
+        tabProfileBtn &&
+        tabPasswordBtn &&
+        tabBookingsBtn &&
+        tabProfileContent &&
+        tabPasswordContent &&
+        tabBookingsContent
+      ) {
         tabProfileBtn.addEventListener("click", () => {
           // Switch to Profile Tab
           tabProfileContent.classList.remove("hidden");
@@ -468,10 +560,13 @@ export default class UserController {
           tabBookingsContent.classList.add("hidden");
 
           // Update active classes on buttons
-          tabProfileBtn.className = "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full bg-primary text-on-primary";
-          tabPasswordBtn.className = "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full text-on-surface-variant hover:bg-primary/5";
-          tabBookingsBtn.className = "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full text-on-surface-variant hover:bg-primary/5";
-          
+          tabProfileBtn.className =
+            "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full bg-primary text-on-primary";
+          tabPasswordBtn.className =
+            "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full text-on-surface-variant hover:bg-primary/5";
+          tabBookingsBtn.className =
+            "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full text-on-surface-variant hover:bg-primary/5";
+
           // Cập nhật URL mà không reload trang
           const url = new URL(window.location.href);
           url.searchParams.set("tab", "profile");
@@ -485,9 +580,12 @@ export default class UserController {
           tabBookingsContent.classList.add("hidden");
 
           // Update active classes on buttons
-          tabProfileBtn.className = "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full text-on-surface-variant hover:bg-primary/5";
-          tabPasswordBtn.className = "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full bg-primary text-on-primary";
-          tabBookingsBtn.className = "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full text-on-surface-variant hover:bg-primary/5";
+          tabProfileBtn.className =
+            "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full text-on-surface-variant hover:bg-primary/5";
+          tabPasswordBtn.className =
+            "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full bg-primary text-on-primary";
+          tabBookingsBtn.className =
+            "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full text-on-surface-variant hover:bg-primary/5";
 
           // Cập nhật URL mà không reload trang
           const url = new URL(window.location.href);
@@ -502,9 +600,12 @@ export default class UserController {
           tabBookingsContent.classList.remove("hidden");
 
           // Update active classes on buttons
-          tabProfileBtn.className = "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full text-on-surface-variant hover:bg-primary/5";
-          tabPasswordBtn.className = "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full text-on-surface-variant hover:bg-primary/5";
-          tabBookingsBtn.className = "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full bg-primary text-on-primary";
+          tabProfileBtn.className =
+            "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full text-on-surface-variant hover:bg-primary/5";
+          tabPasswordBtn.className =
+            "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full text-on-surface-variant hover:bg-primary/5";
+          tabBookingsBtn.className =
+            "flex items-center gap-sm px-md py-sm rounded-xl text-left transition-colors font-bold text-sm w-full bg-primary text-on-primary";
 
           // Cập nhật URL mà không reload trang
           const url = new URL(window.location.href);
@@ -519,9 +620,15 @@ export default class UserController {
         form.addEventListener("submit", async (e) => {
           e.preventDefault();
 
-          const nameInput = document.getElementById("profile-name") as HTMLInputElement;
-          const phoneInput = document.getElementById("profile-phone") as HTMLInputElement;
-          const submitBtn = document.getElementById("save-profile-btn") as HTMLButtonElement;
+          const nameInput = document.getElementById(
+            "profile-name",
+          ) as HTMLInputElement;
+          const phoneInput = document.getElementById(
+            "profile-phone",
+          ) as HTMLInputElement;
+          const submitBtn = document.getElementById(
+            "save-profile-btn",
+          ) as HTMLButtonElement;
 
           const name = nameInput.value.trim();
           const phone = phoneInput.value.trim();
@@ -539,7 +646,10 @@ export default class UserController {
           }
 
           try {
-            const updatedUser = await UserService.update(currentUser._id, updateData);
+            const updatedUser = await UserService.update(
+              currentUser._id,
+              updateData,
+            );
             const newUserObj = { ...currentUser, ...updatedUser };
             localStorage.setItem("courtify_user", JSON.stringify(newUserObj));
             alert("Cập nhật thông tin tài khoản thành công!");
@@ -555,14 +665,22 @@ export default class UserController {
       }
 
       // Đăng ký sự kiện đổi mật khẩu
-      const passwordForm = document.getElementById("password-form") as HTMLFormElement;
+      const passwordForm = document.getElementById(
+        "password-form",
+      ) as HTMLFormElement;
       if (passwordForm) {
         passwordForm.addEventListener("submit", async (e) => {
           e.preventDefault();
 
-          const newPasswordInput = document.getElementById("profile-new-password") as HTMLInputElement;
-          const confirmPasswordInput = document.getElementById("profile-confirm-password") as HTMLInputElement;
-          const submitBtn = document.getElementById("save-password-btn") as HTMLButtonElement;
+          const newPasswordInput = document.getElementById(
+            "profile-new-password",
+          ) as HTMLInputElement;
+          const confirmPasswordInput = document.getElementById(
+            "profile-confirm-password",
+          ) as HTMLInputElement;
+          const submitBtn = document.getElementById(
+            "save-password-btn",
+          ) as HTMLButtonElement;
 
           const newPassword = newPasswordInput.value;
           const confirmPassword = confirmPasswordInput.value;
@@ -582,7 +700,9 @@ export default class UserController {
           }
 
           try {
-            await UserService.update(currentUser._id, { password: newPassword });
+            await UserService.update(currentUser._id, {
+              password: newPassword,
+            });
             alert("Thay đổi mật khẩu thành công!");
             newPasswordInput.value = "";
             confirmPasswordInput.value = "";
@@ -602,7 +722,7 @@ export default class UserController {
 
       // Đăng ký sự kiện hủy đặt sân
       const cancelButtons = document.querySelectorAll(".cancel-booking-btn");
-      cancelButtons.forEach(btn => {
+      cancelButtons.forEach((btn) => {
         btn.addEventListener("click", async (e) => {
           const target = e.currentTarget as HTMLButtonElement;
           const bookingId = target.getAttribute("data-id");
@@ -612,7 +732,9 @@ export default class UserController {
             target.disabled = true;
             target.textContent = "Đang xử lý...";
             try {
-              await BookingService.update(bookingId, { booking_status: "cancelled" });
+              await BookingService.update(bookingId, {
+                booking_status: "cancelled",
+              });
               alert("Đã hủy lượt đặt sân thành công!");
               this.profile(); // Tải lại view
             } catch (error: any) {
@@ -623,7 +745,6 @@ export default class UserController {
           }
         });
       });
-
     } catch (error: any) {
       console.error(error);
       app.innerHTML = `<div class="py-xl px-gutter text-center text-error text-sm">Lỗi khi tải thông tin: ${error.message}</div>`;
@@ -635,4 +756,3 @@ export default class UserController {
     window.location.href = "?ctrl=user&act=profile&tab=bookings";
   }
 }
-

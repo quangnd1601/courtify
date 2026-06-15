@@ -10,7 +10,6 @@ import config from "../config/config.js";
 // Lấy origin backend từ config (bỏ /api)
 const API_ORIGIN = config.BASE_URL.replace(/\/api\/?$/, "");
 
-
 export default class OwnerController {
   private getAppElement(): HTMLElement | null {
     const app = document.getElementById("app");
@@ -41,27 +40,45 @@ export default class OwnerController {
 
       // Filter courts belonging to owner's centers
       const centerIds = new Set(centers.map((c) => c._id));
-      const ownerCourts = allCourts.filter((c) => centerIds.has(c.sport_center_id));
+      const ownerCourts = allCourts.filter((c) =>
+        centerIds.has(c.sport_center_id),
+      );
       const ownerCourtsIds = new Set(ownerCourts.map((c) => c._id));
 
       // Filter bookings belonging to owner's centers or courts
       const ownerBookings = allBookings.filter(
         (b) =>
-          (b.sport_center_id && centerIds.has(b.sport_center_id._id || b.sport_center_id)) ||
-          (b.court_id && ownerCourtsIds.has(b.court_id._id || b.court_id))
+          (b.sport_center_id &&
+            centerIds.has(b.sport_center_id._id || b.sport_center_id)) ||
+          (b.court_id && ownerCourtsIds.has(b.court_id._id || b.court_id)),
       );
 
       // Calculate stats
-      const completedBookings = ownerBookings.filter((b) => b.booking_status === "completed");
-      const confirmedBookings = ownerBookings.filter((b) => b.booking_status === "confirmed");
-      const pendingBookings = ownerBookings.filter((b) => b.booking_status === "pending");
-      const cancelledBookings = ownerBookings.filter((b) => b.booking_status === "cancelled");
+      const completedBookings = ownerBookings.filter(
+        (b) => b.booking_status === "completed",
+      );
+      const confirmedBookings = ownerBookings.filter(
+        (b) => b.booking_status === "confirmed",
+      );
+      const pendingBookings = ownerBookings.filter(
+        (b) => b.booking_status === "pending",
+      );
+      const cancelledBookings = ownerBookings.filter(
+        (b) => b.booking_status === "cancelled",
+      );
 
-      const totalRevenue = completedBookings.reduce((sum, b) => sum + (b.total_price || 0), 0);
+      const totalRevenue = completedBookings.reduce(
+        (sum, b) => sum + (b.total_price || 0),
+        0,
+      );
 
       // Sort bookings by created date desc to get recent ones
       const recentBookings = [...ownerBookings]
-        .sort((a, b) => new Date(b.created_at || 0).getTime() - new Date(a.created_at || 0).getTime())
+        .sort(
+          (a, b) =>
+            new Date(b.created_at || 0).getTime() -
+            new Date(a.created_at || 0).getTime(),
+        )
         .slice(0, 5);
 
       const stats = {
@@ -130,9 +147,15 @@ export default class OwnerController {
 
   private initCenterFormEvents(center: any | null): void {
     // 1. Thumbnail Upload Handling
-    const thumbnailFileInput = document.getElementById("center-thumbnail-file") as HTMLInputElement;
-    const thumbnailHiddenInput = document.getElementById("center-thumbnail") as HTMLInputElement;
-    const thumbnailPreview = document.getElementById("center-thumbnail-preview") as HTMLImageElement;
+    const thumbnailFileInput = document.getElementById(
+      "center-thumbnail-file",
+    ) as HTMLInputElement;
+    const thumbnailHiddenInput = document.getElementById(
+      "center-thumbnail",
+    ) as HTMLInputElement;
+    const thumbnailPreview = document.getElementById(
+      "center-thumbnail-preview",
+    ) as HTMLImageElement;
 
     if (thumbnailFileInput && thumbnailHiddenInput && thumbnailPreview) {
       thumbnailFileInput.addEventListener("change", async () => {
@@ -148,10 +171,14 @@ export default class OwnerController {
             method: "POST",
             body: formData,
           });
+          if (!res.ok) {
+            throw new Error(`Upload failed: ${res.status}`);
+          }
           const data = await res.json();
           if (data.status === 1 && data.url) {
             thumbnailHiddenInput.value = data.url;
-            thumbnailPreview.src = `http://localhost:8080${data.url}`;
+            // Construct full URL from API_ORIGIN + relative URL
+            thumbnailPreview.src = `${API_ORIGIN}${data.url}`;
           } else {
             alert("Upload ảnh thất bại!");
           }
@@ -165,9 +192,15 @@ export default class OwnerController {
     }
 
     // 2. Gallery Upload Handling
-    const galleryFileInput = document.getElementById("center-gallery-files") as HTMLInputElement;
-    const galleryHiddenInput = document.getElementById("center-gallery") as HTMLInputElement;
-    const galleryPreviewsContainer = document.getElementById("center-gallery-previews");
+    const galleryFileInput = document.getElementById(
+      "center-gallery-files",
+    ) as HTMLInputElement;
+    const galleryHiddenInput = document.getElementById(
+      "center-gallery",
+    ) as HTMLInputElement;
+    const galleryPreviewsContainer = document.getElementById(
+      "center-gallery-previews",
+    );
 
     if (galleryFileInput && galleryHiddenInput && galleryPreviewsContainer) {
       // Listen for gallery upload
@@ -186,6 +219,9 @@ export default class OwnerController {
             method: "POST",
             body: formData,
           });
+          if (!res.ok) {
+            throw new Error(`Upload failed: ${res.status}`);
+          }
           const data = await res.json();
           if (data.status === 1 && data.urls) {
             let galleryUrls: string[] = [];
@@ -199,7 +235,11 @@ export default class OwnerController {
             galleryHiddenInput.value = JSON.stringify(galleryUrls);
 
             // Re-render gallery previews
-            this.renderGalleryPreviews(galleryUrls, galleryPreviewsContainer, galleryHiddenInput);
+            this.renderGalleryPreviews(
+              galleryUrls,
+              galleryPreviewsContainer,
+              galleryHiddenInput,
+            );
           } else {
             alert("Upload thư viện ảnh thất bại!");
           }
@@ -226,7 +266,11 @@ export default class OwnerController {
             }
             galleryUrls = galleryUrls.filter((url) => url !== urlToDelete);
             galleryHiddenInput.value = JSON.stringify(galleryUrls);
-            this.renderGalleryPreviews(galleryUrls, galleryPreviewsContainer, galleryHiddenInput);
+            this.renderGalleryPreviews(
+              galleryUrls,
+              galleryPreviewsContainer,
+              galleryHiddenInput,
+            );
           }
         }
       });
@@ -254,13 +298,25 @@ export default class OwnerController {
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         try {
-          const name = (document.getElementById("center-name") as HTMLInputElement).value;
-          const address = (document.getElementById("center-address") as HTMLInputElement).value;
-          const location = (document.getElementById("center-location") as HTMLInputElement).value;
-          const sport_id = (document.getElementById("center-sport") as HTMLSelectElement).value;
-          const description = (document.getElementById("center-description") as HTMLTextAreaElement).value;
+          const name = (
+            document.getElementById("center-name") as HTMLInputElement
+          ).value;
+          const address = (
+            document.getElementById("center-address") as HTMLInputElement
+          ).value;
+          const location = (
+            document.getElementById("center-location") as HTMLInputElement
+          ).value;
+          const sport_id = (
+            document.getElementById("center-sport") as HTMLSelectElement
+          ).value;
+          const description = (
+            document.getElementById("center-description") as HTMLTextAreaElement
+          ).value;
           const thumbnail = thumbnailHiddenInput.value;
-          const status = (document.getElementById("center-status") as HTMLSelectElement).value;
+          const status = (
+            document.getElementById("center-status") as HTMLSelectElement
+          ).value;
 
           let gallery: string[] = [];
           if (galleryHiddenInput) {
@@ -321,14 +377,18 @@ export default class OwnerController {
     }
   }
 
-  private renderGalleryPreviews(galleryUrls: string[], container: HTMLElement, hiddenInput: HTMLInputElement): void {
+  private renderGalleryPreviews(
+    galleryUrls: string[],
+    container: HTMLElement,
+    hiddenInput: HTMLInputElement,
+  ): void {
     container.innerHTML = galleryUrls
       .map(
         (img) => `
       <div class="relative w-20 h-20 group rounded-lg overflow-hidden border border-outline-variant/30">
         <img src="${API_ORIGIN}${img}" class="w-full h-full object-cover" />
         <button type="button" class="delete-gallery-img absolute inset-0 bg-red-600/70 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all text-xs font-bold" data-url="${img}">Xóa</button>
-      </div>`
+      </div>`,
       )
       .join("");
   }
@@ -361,7 +421,10 @@ export default class OwnerController {
       // Filter courts that belong to the owner's centers
       const centerIds = new Set(centers.map((c) => c._id));
       const ownerCourts = allCourts.filter((c) => {
-        const scId = typeof c.sport_center_id === "object" && c.sport_center_id ? (c.sport_center_id as any)._id : c.sport_center_id;
+        const scId =
+          typeof c.sport_center_id === "object" && c.sport_center_id
+            ? (c.sport_center_id as any)._id
+            : c.sport_center_id;
         return centerIds.has(scId);
       });
 
@@ -405,9 +468,15 @@ export default class OwnerController {
   }
 
   private initCourtFormEvents(court: any | null, centers: any[]): void {
-    const thumbnailFileInput = document.getElementById("court-thumbnail-file") as HTMLInputElement;
-    const thumbnailHiddenInput = document.getElementById("court-thumbnail") as HTMLInputElement;
-    const thumbnailPreview = document.getElementById("court-thumbnail-preview") as HTMLImageElement;
+    const thumbnailFileInput = document.getElementById(
+      "court-thumbnail-file",
+    ) as HTMLInputElement;
+    const thumbnailHiddenInput = document.getElementById(
+      "court-thumbnail",
+    ) as HTMLInputElement;
+    const thumbnailPreview = document.getElementById(
+      "court-thumbnail-preview",
+    ) as HTMLImageElement;
 
     if (thumbnailFileInput && thumbnailHiddenInput && thumbnailPreview) {
       thumbnailFileInput.addEventListener("change", async () => {
@@ -423,10 +492,13 @@ export default class OwnerController {
             method: "POST",
             body: formData,
           });
+          if (!res.ok) {
+            throw new Error(`Upload failed: ${res.status}`);
+          }
           const data = await res.json();
           if (data.status === 1 && data.url) {
             thumbnailHiddenInput.value = data.url;
-            thumbnailPreview.src = `http://localhost:8080${data.url}`;
+            thumbnailPreview.src = `${API_ORIGIN}${data.url}`;
           } else {
             alert("Upload ảnh thất bại!");
           }
@@ -444,11 +516,19 @@ export default class OwnerController {
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         try {
-          const sport_center_id = (document.getElementById("court-center") as HTMLSelectElement).value;
-          const name = (document.getElementById("court-name") as HTMLInputElement).value;
-          const description = (document.getElementById("court-description") as HTMLTextAreaElement).value;
+          const sport_center_id = (
+            document.getElementById("court-center") as HTMLSelectElement
+          ).value;
+          const name = (
+            document.getElementById("court-name") as HTMLInputElement
+          ).value;
+          const description = (
+            document.getElementById("court-description") as HTMLTextAreaElement
+          ).value;
           const thumbnail = thumbnailHiddenInput.value;
-          const status = (document.getElementById("court-status") as HTMLSelectElement).value;
+          const status = (
+            document.getElementById("court-status") as HTMLSelectElement
+          ).value;
 
           const courtData = {
             sport_center_id,
@@ -501,17 +581,24 @@ export default class OwnerController {
       ]);
 
       const centerIds = new Set(centers.map((c) => c._id));
-      const ownerCourts = allCourts.filter((c) => centerIds.has(c.sport_center_id));
+      const ownerCourts = allCourts.filter((c) =>
+        centerIds.has(c.sport_center_id),
+      );
       const ownerCourtsIds = new Set(ownerCourts.map((c) => c._id));
 
       const ownerBookings = allBookings.filter(
         (b) =>
-          (b.sport_center_id && centerIds.has(b.sport_center_id._id || b.sport_center_id)) ||
-          (b.court_id && ownerCourtsIds.has(b.court_id._id || b.court_id))
+          (b.sport_center_id &&
+            centerIds.has(b.sport_center_id._id || b.sport_center_id)) ||
+          (b.court_id && ownerCourtsIds.has(b.court_id._id || b.court_id)),
       );
 
       // Sort bookings by date desc
-      ownerBookings.sort((a, b) => new Date(b.booking_date || 0).getTime() - new Date(a.booking_date || 0).getTime());
+      ownerBookings.sort(
+        (a, b) =>
+          new Date(b.booking_date || 0).getTime() -
+          new Date(a.booking_date || 0).getTime(),
+      );
 
       app.innerHTML = OwnerView.renderBookings(ownerBookings);
       this.initBookingsEvents();
@@ -531,10 +618,20 @@ export default class OwnerController {
         // Update active class
         filterButtons.forEach((b) => {
           b.classList.remove("bg-primary", "text-white");
-          b.classList.add("bg-white", "text-on-surface-variant", "border", "border-outline-variant/30");
+          b.classList.add(
+            "bg-white",
+            "text-on-surface-variant",
+            "border",
+            "border-outline-variant/30",
+          );
         });
         btn.classList.add("bg-primary", "text-white");
-        btn.classList.remove("bg-white", "text-on-surface-variant", "border", "border-outline-variant/30");
+        btn.classList.remove(
+          "bg-white",
+          "text-on-surface-variant",
+          "border",
+          "border-outline-variant/30",
+        );
 
         const filter = btn.getAttribute("data-filter");
         rows.forEach((row: any) => {
@@ -562,12 +659,14 @@ export default class OwnerController {
               action === "confirmed"
                 ? "Duyệt booking này?"
                 : action === "completed"
-                ? "Đánh dấu hoàn thành booking này?"
-                : "Hủy booking này?";
+                  ? "Đánh dấu hoàn thành booking này?"
+                  : "Hủy booking này?";
 
             if (confirm(confirmMsg)) {
               try {
-                await BookingService.update(bookingId, { booking_status: action });
+                await BookingService.update(bookingId, {
+                  booking_status: action,
+                });
                 alert("Cập nhật trạng thái booking thành công!");
                 this.bookings();
               } catch (error: any) {
@@ -590,7 +689,12 @@ export default class OwnerController {
       const allVouchers = await VoucherService.getAll();
       const ownerId = this.getOwnerId();
       // Filter vouchers owned by this owner
-      const ownerVouchers = allVouchers.filter((v) => v.owner_id === ownerId);
+      const ownerVouchers = allVouchers.filter((v) => {
+        // Handle both object and string types for owner_id
+         const vOwnerId =
+           typeof v.owner_id === "object" && v.owner_id !== null ? (v.owner_id as any)._id : v.owner_id;
+        return vOwnerId === ownerId;
+      });
 
       app.innerHTML = OwnerView.renderVouchersList(ownerVouchers);
     } catch (error) {
@@ -637,16 +741,48 @@ export default class OwnerController {
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
         try {
-          const sport_center_id = (document.getElementById("voucher-center") as HTMLSelectElement).value;
-          const code = (document.getElementById("voucher-code") as HTMLInputElement).value.toUpperCase().trim();
-          const description = (document.getElementById("voucher-description") as HTMLTextAreaElement).value;
-          const discount_percent = parseInt((document.getElementById("voucher-discount") as HTMLInputElement).value);
-          const max_discount = parseFloat((document.getElementById("voucher-max-discount") as HTMLInputElement).value);
-          const min_order = parseFloat((document.getElementById("voucher-min-order") as HTMLInputElement).value) || 0;
-          const start_date = (document.getElementById("voucher-start") as HTMLInputElement).value;
-          const end_date = (document.getElementById("voucher-end") as HTMLInputElement).value;
-          const usage_limit = parseInt((document.getElementById("voucher-limit") as HTMLInputElement).value);
-          const status = (document.getElementById("voucher-status") as HTMLSelectElement).value;
+          const sport_center_id = (
+            document.getElementById("voucher-center") as HTMLSelectElement
+          ).value;
+          const code = (
+            document.getElementById("voucher-code") as HTMLInputElement
+          ).value
+            .toUpperCase()
+            .trim();
+          const description = (
+            document.getElementById(
+              "voucher-description",
+            ) as HTMLTextAreaElement
+          ).value;
+          const discount_percent = parseInt(
+            (document.getElementById("voucher-discount") as HTMLInputElement)
+              .value,
+          );
+          const max_discount = parseFloat(
+            (
+              document.getElementById(
+                "voucher-max-discount",
+              ) as HTMLInputElement
+            ).value,
+          );
+          const min_order =
+            parseFloat(
+              (document.getElementById("voucher-min-order") as HTMLInputElement)
+                .value,
+            ) || 0;
+          const start_date = (
+            document.getElementById("voucher-start") as HTMLInputElement
+          ).value;
+          const end_date = (
+            document.getElementById("voucher-end") as HTMLInputElement
+          ).value;
+          const usage_limit = parseInt(
+            (document.getElementById("voucher-limit") as HTMLInputElement)
+              .value,
+          );
+          const status = (
+            document.getElementById("voucher-status") as HTMLSelectElement
+          ).value;
 
           const owner_id = this.getOwnerId();
           const voucherData = {

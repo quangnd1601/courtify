@@ -46,13 +46,12 @@ function updateHeaderState(): void {
               <p class="font-bold text-sm text-on-surface line-clamp-1">${currentUser.name}</p>
               <p class="text-xs text-on-surface-variant line-clamp-1">${currentUser.email}</p>
             </div>
-            ${
-              currentUser.role === "admin"
-                ? `<a href="admin.html" class="block px-md py-sm hover:bg-primary/5 text-sm text-on-surface-variant transition-colors font-semibold">Quản trị</a>`
-                : currentUser.role === "owner"
-                ? `<a href="owner.html" class="block px-md py-sm hover:bg-primary/5 text-sm text-on-surface-variant transition-colors font-semibold">Dashboard Chủ Sân</a>`
-                : ""
-            }
+            ${currentUser.role === "admin"
+          ? `<a href="admin.html" class="block px-md py-sm hover:bg-primary/5 text-sm text-on-surface-variant transition-colors font-semibold">Quản trị</a>`
+          : currentUser.role === "owner"
+            ? `<a href="owner.html" class="block px-md py-sm hover:bg-primary/5 text-sm text-on-surface-variant transition-colors font-semibold">Dashboard Chủ Sân</a>`
+            : ""
+        }
             <a href="?ctrl=user&act=profile" class="block px-md py-sm hover:bg-primary/5 text-sm text-on-surface-variant transition-colors">Tài khoản của tôi</a>
             <a href="?ctrl=user&act=bookings" class="block px-md py-sm hover:bg-primary/5 text-sm text-on-surface-variant transition-colors">Quản lý lịch đặt</a>
             <button id="logout-btn" class="w-full text-left px-md py-sm hover:bg-primary/5 text-sm text-red-500 font-semibold transition-colors">

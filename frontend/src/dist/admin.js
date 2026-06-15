@@ -1,21 +1,33 @@
-import UserController from "./controllers/UserController.js";
-const controller = new UserController();
+import AdminController from "./controllers/AdminController.js";
+import UserService from "./services/UserService.js";
+// Kiểm tra xem người dùng có phải là admin không
+const currentUser = UserService.getCurrentUser();
+if (!currentUser || currentUser.role !== "admin") {
+    alert("Bạn không có quyền truy cập trang admin!");
+    window.location.href = "index.html";
+}
+const controller = new AdminController();
 const params = new URLSearchParams(window.location.search);
-const ctrl = params.get("ctrl") || "user";
-const act = params.get("act") || "list";
-// Đăng ký hàm delete cho window object để gọi từ HTML button onclick
-window.deleteUser = (id) => {
-    controller.delete(id);
-};
-if (ctrl === "user") {
-    if (act === "list") {
-        controller.list();
-    }
-    else if (act === "add") {
-        controller.add();
-    }
-    else if (act === "edit") {
-        controller.edit();
-    }
+const ctrl = params.get("ctrl") || "dashboard";
+if (ctrl === "dashboard") {
+    controller.dashboard();
+}
+else if (ctrl === "users") {
+    controller.usersList();
+}
+else if (ctrl === "centers") {
+    controller.centersList();
+}
+else if (ctrl === "bookings") {
+    controller.bookingsList();
+}
+else if (ctrl === "vouchers") {
+    controller.vouchersList();
+}
+else if (ctrl === "reviews") {
+    controller.reviewsList();
+}
+else {
+    controller.dashboard();
 }
 //# sourceMappingURL=admin.js.map
