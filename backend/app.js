@@ -33,25 +33,26 @@ mongoose
 // let user1 = new UserModel({ name: "quang vip pro" });
 // user1.save();
 
-// 3. cấu hình CORS - kiểm tra whiteList
+// 3. cấu hình CORS - cho phép tất cả các Origin để tránh lỗi BLOCKED_BY_ORB ở môi trường dev
 var cors = require("cors");
-var allowlist = [
-  process.env.PORT_FRONT_END_1,
-  process.env.PORT_FRONT_END_2,
-];
-var corsOptionsDelegate = function (req, callback) {
-  var corsOptions;
+// var allowlist = [
+//   process.env.PORT_FRONT_END_1,
+//   process.env.PORT_FRONT_END_2,
+// ];
+// var corsOptionsDelegate = function (req, callback) {
+//   var corsOptions;
 
-  if (allowlist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true };
-  } else {
-    corsOptions = { origin: false };
-  }
+//   if (allowlist.indexOf(req.header('Origin')) !== -1) {
+//     corsOptions = { origin: true };
+//   } else {
+//     corsOptions = { origin: false };
+//   }
 
-  callback(null, corsOptions);
-};
+//   callback(null, corsOptions);
+// };
 
-app.use(cors(corsOptionsDelegate));
+// app.use(cors(corsOptionsDelegate));
+app.use(cors());
 
 app.use(logger("dev"));
 app.use(express.json());

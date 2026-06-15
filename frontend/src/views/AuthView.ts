@@ -369,7 +369,7 @@ export const AuthView = {
           </aside>
 
           <!-- Right Content Area -->
-          <main class="lg:col-span-9 space-y-lg">
+          <main class="lg:col-span-9">
             
             <!-- Tab 1: Profile Form -->
             <div id="tab-profile-content" class="${defaultTab === "profile" ? "" : "hidden"}">
@@ -472,7 +472,7 @@ export const AuthView = {
             <!-- Tab 3: Bookings Content (Shopee Style) -->
             <div id="tab-bookings-content" class="${defaultTab === "bookings" ? "" : "hidden"} space-y-md">
               <!-- Shopee-style Order Status Nav -->
-              <div class="flex border-b border-outline-variant/20 overflow-x-auto gap-xs pb-1">
+              <div class="flex w-full border-b border-outline-variant/20 pb-1">
                 <button class="booking-status-tab flex-1 py-2 text-center font-bold text-xs uppercase tracking-wider border-b-2 border-primary text-primary transition-all whitespace-nowrap" data-status="all">
                   Tất cả
                 </button>

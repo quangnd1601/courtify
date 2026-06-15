@@ -2,17 +2,24 @@ import { ISportsCenter } from "../models/SportsCenterModel.js";
 import { ICourt } from "../services/CourtService.js";
 import { IVoucher } from "../models/VoucherModel.js";
 import { ISport } from "../models/SportModel.js";
+import config from "../config/config.js";
 
 // Helper format tiền VND
 const formatMoney = (n: number): string => n.toLocaleString("vi-VN");
 
-// Helper format ảnh
-const getImageUrl = (url?: string, fallback: string = ""): string => {
+// Placeholder ảnh mặc định (inline SVG, không cần tải từ bên ngoài)
+const PLACEHOLDER_IMG = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' fill='%23ccc'%3E%3Crect width='200' height='200' fill='%23e5eeff'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='14' fill='%23757682'%3ENo Image%3C/text%3E%3C/svg%3E`;
+
+// Lấy origin của backend từ config (loại bỏ /api)
+const API_ORIGIN = config.BASE_URL.replace(/\/api\/?$/, "");
+
+// Helper format ảnh - dùng API_ORIGIN thay vì hardcode localhost
+const getImageUrl = (url?: string, fallback: string = PLACEHOLDER_IMG): string => {
   if (!url) return fallback;
   if (url.startsWith("http://") || url.startsWith("https://")) {
     return url;
   }
-  return `http://localhost:8080${url}`;
+  return `${API_ORIGIN}${url}`;
 };
 
 // Helper format ngày
@@ -249,7 +256,7 @@ const OwnerView = {
           <tr class="border-b border-outline-variant/10">
             <td class="px-4 py-3">
               <div class="flex items-center gap-3">
-                <img src="${c.thumbnail ? 'http://localhost:8080' + c.thumbnail : 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=100'}" 
+                <img src="${getImageUrl(c.thumbnail)}" 
                      class="w-12 h-12 rounded-lg object-cover border border-outline-variant/20" alt="${c.name}" />
                 <div>
                   <p class="font-bold text-sm text-on-surface">${c.name}</p>
@@ -375,7 +382,7 @@ const OwnerView = {
             <div>
               <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider block">Ảnh đại diện (Thumbnail)</label>
               <div class="flex items-center gap-4 mt-2">
-                <img id="center-thumbnail-preview" src="${center?.thumbnail ? 'http://localhost:8080' + center.thumbnail : 'https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=120'}" 
+                <img id="center-thumbnail-preview" src="${getImageUrl(center?.thumbnail)}" 
                      class="w-20 h-20 object-cover rounded-lg border border-outline-variant/30" />
                 <div class="flex-1">
                   <input type="file" id="center-thumbnail-file" accept="image/*" class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20" />
@@ -391,7 +398,7 @@ const OwnerView = {
                   ${center?.gallery && center.gallery.length > 0
         ? center.gallery.map(img => `
                           <div class="relative w-20 h-20 group rounded-lg overflow-hidden border border-outline-variant/30">
-                            <img src="http://localhost:8080${img}" class="w-full h-full object-cover" />
+                            <img src="${getImageUrl(img)}" class="w-full h-full object-cover" />
                             <button type="button" class="delete-gallery-img absolute inset-0 bg-red-600/70 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all text-xs font-bold" data-url="${img}">Xóa</button>
                           </div>
                         `).join("")
@@ -451,15 +458,15 @@ const OwnerView = {
           <tr class="border-b border-outline-variant/10">
             <td class="px-4 py-3">
               <div class="flex items-center gap-3">
-                <img src="${c.thumbnail ? 'http://localhost:8080' + c.thumbnail : 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=100'}" 
-                     class="w-12 h-12 rounded-lg object-cover border border-outline-variant/20" alt="${c.name}" />
+                 <img src="${getImageUrl(c.thumbnail)}" 
+                      class="w-12 h-12 rounded-lg object-cover border border-outline-variant/20" alt="${c.name}" />
                 <div>
                   <p class="font-bold text-sm text-on-surface">${c.name}</p>
                   <p class="text-xs text-on-surface-variant">${c.description || "—"}</p>
                 </div>
               </div>
             </td>
-            <td class="px-4 py-3 text-sm">${centerMap[c.sport_center_id] || c.sport_center_id}</td>
+            <td class="px-4 py-3 text-sm">${typeof c.sport_center_id === "object" ? (c.sport_center_id as any)?.name || "—" : (centerMap[c.sport_center_id] || c.sport_center_id)}</td>
             <td class="px-4 py-3 text-sm">${c.booking_count}</td>
             <td class="px-4 py-3">${statusBadge(c.status)}</td>
             <td class="px-4 py-3">
@@ -506,7 +513,7 @@ const OwnerView = {
     const centerOptions = centers
       .map(
         (c) =>
-          `<option value="${c._id}" ${court && court.sport_center_id === c._id ? "selected" : ""}>${c.name}</option>`
+          `<option value="${c._id}" ${court && (court.sport_center_id === c._id || (typeof court.sport_center_id === "object" && (court.sport_center_id as any)?._id === c._id)) ? "selected" : ""}>${c.name}</option>`
       )
       .join("");
 
@@ -539,8 +546,8 @@ const OwnerView = {
             <div>
               <label class="text-xs font-semibold text-on-surface-variant uppercase tracking-wider block">Ảnh đại diện (Thumbnail)</label>
               <div class="flex items-center gap-4 mt-2">
-                <img id="court-thumbnail-preview" src="${court?.thumbnail ? 'http://localhost:8080' + court.thumbnail : 'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=120'}" 
-                     class="w-20 h-20 object-cover rounded-lg border border-outline-variant/30" />
+                 <img id="court-thumbnail-preview" src="${getImageUrl(court?.thumbnail)}" 
+                      class="w-20 h-20 object-cover rounded-lg border border-outline-variant/30" />
                 <div class="flex-1">
                   <input type="file" id="court-thumbnail-file" accept="image/*" class="text-sm file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20" />
                   <input type="hidden" id="court-thumbnail" value="${court?.thumbnail || ""}" />

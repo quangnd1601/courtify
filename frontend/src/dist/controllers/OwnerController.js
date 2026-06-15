@@ -6,9 +6,15 @@ import SportService from "../services/SportService.js";
 import UserService from "../services/UserService.js";
 import OwnerView from "../views/OwnerView.js";
 import config from "../config/config.js";
+// Lấy origin backend từ config (bỏ /api)
+const API_ORIGIN = config.BASE_URL.replace(/\/api\/?$/, "");
 export default class OwnerController {
     getAppElement() {
-        return document.getElementById("app");
+        const app = document.getElementById("app");
+        if (app) {
+            app.className = "w-full min-h-screen";
+        }
+        return app;
     }
     getOwnerId() {
         const user = UserService.getCurrentUser();
@@ -298,7 +304,7 @@ export default class OwnerController {
         container.innerHTML = galleryUrls
             .map((img) => `
       <div class="relative w-20 h-20 group rounded-lg overflow-hidden border border-outline-variant/30">
-        <img src="http://localhost:8080${img}" class="w-full h-full object-cover" />
+        <img src="${API_ORIGIN}${img}" class="w-full h-full object-cover" />
         <button type="button" class="delete-gallery-img absolute inset-0 bg-red-600/70 text-white opacity-0 group-hover:opacity-100 flex items-center justify-center transition-all text-xs font-bold" data-url="${img}">Xóa</button>
       </div>`)
             .join("");
@@ -329,7 +335,10 @@ export default class OwnerController {
             ]);
             // Filter courts that belong to the owner's centers
             const centerIds = new Set(centers.map((c) => c._id));
-            const ownerCourts = allCourts.filter((c) => centerIds.has(c.sport_center_id));
+            const ownerCourts = allCourts.filter((c) => {
+                const scId = typeof c.sport_center_id === "object" && c.sport_center_id ? c.sport_center_id._id : c.sport_center_id;
+                return centerIds.has(scId);
+            });
             app.innerHTML = OwnerView.renderCourtsList(ownerCourts, centers);
         }
         catch (error) {
