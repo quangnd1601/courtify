@@ -1,263 +1,373 @@
 <!doctype html>
 <html class="scroll-smooth" lang="vi">
-
-<head>
-  <meta charset="utf-8" />
-  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-  <title>Courtify | Đặt sân chuyên nghiệp</title>
-  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-    rel="stylesheet" />
-  <script id="tailwind-config">
-    tailwind.config = {
-      darkMode: "class",
-      theme: {
-        extend: {
-          colors: {
-            "surface-tint": "#4059aa",
-            "surface-container-low": "#eff4ff",
-            "tertiary-fixed-dim": "#ffb690",
-            "on-secondary-container": "#536d22",
-            "tertiary-fixed": "#ffdbca",
-            "surface-dim": "#cbdbf5",
-            outline: "#757682",
-            "primary-fixed-dim": "#b6c4ff",
-            "surface-container-highest": "#d3e4fe",
-            "inverse-on-surface": "#eaf1ff",
-            "on-secondary-fixed": "#131f00",
-            secondary: "#4d661c",
-            "on-error": "#ffffff",
-            "on-tertiary-fixed": "#341100",
-            tertiary: "#4b1c00",
-            "on-primary": "#ffffff",
-            "surface-variant": "#d3e4fe",
-            "on-primary-fixed-variant": "#264191",
-            "primary-container": "#1e3a8a",
-            "on-tertiary": "#ffffff",
-            "on-error-container": "#93000a",
-            error: "#ba1a1a",
-            "inverse-surface": "#213145",
-            "inverse-primary": "#b6c4ff",
-            "on-primary-fixed": "#00164e",
-            "surface-container": "#e5eeff",
-            "surface-container-lowest": "#ffffff",
-            "secondary-fixed": "#ceee93",
-            primary: "#00236f",
-            background: "#f8f9ff",
-            "on-secondary": "#ffffff",
-            "on-surface-variant": "#444651",
-            "outline-variant": "#c5c5d3",
-            "on-tertiary-container": "#ff8f4f",
-            "surface-container-high": "#dce9ff",
-            "primary-fixed": "#dce1ff",
-            "secondary-container": "#ceee93",
-            "on-tertiary-fixed-variant": "#783200",
-            "on-surface": "#0b1c30",
-            "error-container": "#ffdad6",
-            "secondary-fixed-dim": "#b3d17a",
-            "on-background": "#0b1c30",
-            surface: "#f8f9ff",
-            "on-secondary-fixed-variant": "#364e03",
-            "on-primary-container": "#90a8ff",
-            "tertiary-container": "#6e2d00",
-            "surface-bright": "#f8f9ff",
-          },
-          borderRadius: {
-            DEFAULT: "0.25rem",
-            lg: "0.5rem",
-            xl: "0.75rem",
-            full: "9999px",
-          },
-          spacing: {
-            xs: "4px",
-            gutter: "24px",
-            "margin-mobile": "16px",
-            base: "4px",
-            sm: "8px",
-            lg: "24px",
-            xl: "48px",
-            md: "16px",
-            "container-max": "1280px",
-          },
-          fontFamily: {
-            "headline-lg": ["Lexend"],
-            "label-md": ["Hanken Grotesk"],
-            "headline-lg-mobile": ["Lexend"],
-            "body-lg": ["Hanken Grotesk"],
-            "headline-md": ["Lexend"],
-            "headline-xl": ["Lexend"],
-            "label-sm": ["Hanken Grotesk"],
-            "body-md": ["Hanken Grotesk"],
-          },
-          fontSize: {
-            "headline-lg": [
-              "32px",
-              {
-                lineHeight: "1.2",
-                letterSpacing: "-0.01em",
-                fontWeight: "700",
-              },
-            ],
-            "label-md": [
-              "14px",
-              {
-                lineHeight: "1.2",
-                letterSpacing: "0.05em",
-                fontWeight: "600",
-              },
-            ],
-            "headline-lg-mobile": [
-              "24px",
-              { lineHeight: "1.2", fontWeight: "700" },
-            ],
-            "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
-            "headline-md": ["20px", { lineHeight: "1.4", fontWeight: "600" }],
-            "headline-xl": [
-              "40px",
-              {
-                lineHeight: "1.2",
-                letterSpacing: "-0.02em",
-                fontWeight: "700",
-              },
-            ],
-            "label-sm": ["12px", { lineHeight: "1.2", fontWeight: "500" }],
-            "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Courtify | Đặt sân chuyên nghiệp</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&family=Hanken+Grotesk:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-tint": "#4059aa",
+              "surface-container-low": "#eff4ff",
+              "tertiary-fixed-dim": "#ffb690",
+              "on-secondary-container": "#536d22",
+              "tertiary-fixed": "#ffdbca",
+              "surface-dim": "#cbdbf5",
+              outline: "#757682",
+              "primary-fixed-dim": "#b6c4ff",
+              "surface-container-highest": "#d3e4fe",
+              "inverse-on-surface": "#eaf1ff",
+              "on-secondary-fixed": "#131f00",
+              secondary: "#4d661c",
+              "on-error": "#ffffff",
+              "on-tertiary-fixed": "#341100",
+              tertiary: "#4b1c00",
+              "on-primary": "#ffffff",
+              "surface-variant": "#d3e4fe",
+              "on-primary-fixed-variant": "#264191",
+              "primary-container": "#1e3a8a",
+              "on-tertiary": "#ffffff",
+              "on-error-container": "#93000a",
+              error: "#ba1a1a",
+              "inverse-surface": "#213145",
+              "inverse-primary": "#b6c4ff",
+              "on-primary-fixed": "#00164e",
+              "surface-container": "#e5eeff",
+              "surface-container-lowest": "#ffffff",
+              "secondary-fixed": "#ceee93",
+              primary: "#00236f",
+              background: "#f8f9ff",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#444651",
+              "outline-variant": "#c5c5d3",
+              "on-tertiary-container": "#ff8f4f",
+              "surface-container-high": "#dce9ff",
+              "primary-fixed": "#dce1ff",
+              "secondary-container": "#ceee93",
+              "on-tertiary-fixed-variant": "#783200",
+              "on-surface": "#0b1c30",
+              "error-container": "#ffdad6",
+              "secondary-fixed-dim": "#b3d17a",
+              "on-background": "#0b1c30",
+              surface: "#f8f9ff",
+              "on-secondary-fixed-variant": "#364e03",
+              "on-primary-container": "#90a8ff",
+              "tertiary-container": "#6e2d00",
+              "surface-bright": "#f8f9ff",
+            },
+            borderRadius: {
+              DEFAULT: "0.25rem",
+              lg: "0.5rem",
+              xl: "0.75rem",
+              full: "9999px",
+            },
+            spacing: {
+              xs: "4px",
+              gutter: "24px",
+              "margin-mobile": "16px",
+              base: "4px",
+              sm: "8px",
+              lg: "24px",
+              xl: "48px",
+              md: "16px",
+              "container-max": "1280px",
+            },
+            fontFamily: {
+              "headline-lg": ["Lexend"],
+              "label-md": ["Hanken Grotesk"],
+              "headline-lg-mobile": ["Lexend"],
+              "body-lg": ["Hanken Grotesk"],
+              "headline-md": ["Lexend"],
+              "headline-xl": ["Lexend"],
+              "label-sm": ["Hanken Grotesk"],
+              "body-md": ["Hanken Grotesk"],
+            },
+            fontSize: {
+              "headline-lg": [
+                "32px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.01em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-md": [
+                "14px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "0.05em",
+                  fontWeight: "600",
+                },
+              ],
+              "headline-lg-mobile": [
+                "24px",
+                { lineHeight: "1.2", fontWeight: "700" },
+              ],
+              "body-lg": ["18px", { lineHeight: "1.6", fontWeight: "400" }],
+              "headline-md": ["20px", { lineHeight: "1.4", fontWeight: "600" }],
+              "headline-xl": [
+                "40px",
+                {
+                  lineHeight: "1.2",
+                  letterSpacing: "-0.02em",
+                  fontWeight: "700",
+                },
+              ],
+              "label-sm": ["12px", { lineHeight: "1.2", fontWeight: "500" }],
+              "body-md": ["16px", { lineHeight: "1.6", fontWeight: "400" }],
+            },
           },
         },
-      },
-    };
-  </script>
-  <style>
-    .material-symbols-outlined {
-      font-variation-settings:
-        "FILL" 0,
-        "wght" 400,
-        "GRAD" 0,
-        "opsz" 24;
-    }
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 400,
+          "GRAD" 0,
+          "opsz" 24;
+      }
 
-    .hero-gradient {
-      background: linear-gradient(135deg,
+      .hero-gradient {
+        background: linear-gradient(
+          135deg,
           rgba(0, 35, 111, 0.95) 0%,
-          rgba(30, 58, 138, 0.8) 100%);
-    }
+          rgba(30, 58, 138, 0.8) 100%
+        );
+      }
 
-    .glass-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(8px);
-    }
-  </style>
-</head>
+      .glass-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(8px);
+      }
+    </style>
+  </head>
 
-<body class="bg-background text-on-background font-body-md">
-  <!-- TopNavBar -->
-  <nav class="w-full top-0 sticky z-50 bg-surface shadow-sm">
-    <div class="flex justify-between items-center px-gutter max-w-container-max mx-auto h-16">
-      <div class="flex items-center gap-md">
-        <a href="?" class="font-headline-xl text-headline-xl font-bold text-primary cursor-pointer">Courtify</a>
-      </div>
-      <div class="hidden md:flex items-center gap-lg">
-        <a id="nav-home" class="text-on-surface-variant hover:text-primary font-label-md transition-colors" href="?">Trang chủ</a>
-        <a id="nav-search" class="text-on-surface-variant hover:text-primary font-label-md transition-colors" href="?ctrl=search">Tìm sân</a>
-        <a id="nav-news" class="text-on-surface-variant hover:text-primary font-label-md transition-colors" href="#">Tin tức</a>
-        <a id="nav-contact" class="text-on-surface-variant hover:text-primary font-label-md transition-colors" href="#">Liên hệ</a>
-        <a id="nav-about" class="text-on-surface-variant hover:text-primary font-label-md transition-colors" href="#">Giới thiệu</a>
-      </div>
-      <div class="flex items-center gap-md" id="header-actions">
-        <button id="nav-search-btn" class="p-2 rounded-full hover:bg-primary/5 transition-colors text-primary" onclick="window.location.href='?ctrl=search'">
-          <span class="material-symbols-outlined">search</span>
-        </button>
-        <button id="cart-btn" class="p-2 rounded-full hover:bg-primary/5 transition-colors text-primary relative" onclick="window.location.href='?ctrl=user&act=payment'">
-          <span class="material-symbols-outlined">shopping_cart</span>
-          <span id="cart-badge" class="hidden absolute top-0 right-0 bg-red-500 text-white rounded-full text-[10px] w-4 h-4 flex items-center justify-center font-bold">1</span>
-        </button>
-        
-        <!-- Khu vực thông tin Tài khoản / Đăng nhập (Thay thế động bằng JS) -->
-        <div id="user-header-section" class="flex items-center gap-sm">
-          <a href="?ctrl=user&act=login" class="bg-primary text-on-primary px-md py-sm rounded-lg font-label-md hover:bg-primary-container transition-colors text-sm">ĐĂNG NHẬP</a>
+  <body class="bg-background text-on-background font-body-md">
+    <!-- TopNavBar -->
+    <nav class="w-full top-0 sticky z-50 bg-surface shadow-sm">
+      <div
+        class="flex justify-between items-center px-gutter max-w-container-max mx-auto h-16"
+      >
+        <div class="flex items-center gap-md">
+          <a href="?" class="cursor-pointer">
+            <img
+              src="src/public/images/logo-courtify.png"
+              alt="Courtify"
+              class="h-24 w-auto"
+            />
+          </a>
+        </div>
+        <div class="hidden md:flex items-center gap-lg">
+          <a
+            id="nav-home"
+            class="text-on-surface-variant hover:text-primary font-label-md transition-colors"
+            href="?"
+            >Trang chủ</a
+          >
+          <a
+            id="nav-search"
+            class="text-on-surface-variant hover:text-primary font-label-md transition-colors"
+            href="?ctrl=search"
+            >Tìm sân</a
+          >
+          <a
+            id="nav-news"
+            class="text-on-surface-variant hover:text-primary font-label-md transition-colors"
+            href="#"
+            >Tin tức</a
+          >
+          <a
+            id="nav-contact"
+            class="text-on-surface-variant hover:text-primary font-label-md transition-colors"
+            href="#"
+            >Liên hệ</a
+          >
+          <a
+            id="nav-about"
+            class="text-on-surface-variant hover:text-primary font-label-md transition-colors"
+            href="#"
+            >Giới thiệu</a
+          >
+        </div>
+        <div class="flex items-center gap-md" id="header-actions">
+          <button
+            id="nav-search-btn"
+            class="p-2 rounded-full hover:bg-primary/5 transition-colors text-primary"
+            onclick="window.location.href = '?ctrl=search'"
+          >
+            <span class="material-symbols-outlined">search</span>
+          </button>
+          <button
+            id="cart-btn"
+            class="p-2 rounded-full hover:bg-primary/5 transition-colors text-primary relative"
+            onclick="window.location.href = '?ctrl=user&act=payment'"
+          >
+            <span class="material-symbols-outlined">shopping_cart</span>
+            <span
+              id="cart-badge"
+              class="hidden absolute top-0 right-0 bg-red-500 text-white rounded-full text-[10px] w-4 h-4 flex items-center justify-center font-bold"
+              >1</span
+            >
+          </button>
+
+          <!-- Khu vực thông tin Tài khoản / Đăng nhập (Thay thế động bằng JS) -->
+          <div id="user-header-section" class="flex items-center gap-sm">
+            <a
+              href="?ctrl=user&act=login"
+              class="bg-primary text-on-primary px-md py-sm rounded-lg font-label-md hover:bg-primary-container transition-colors text-sm"
+              >ĐĂNG NHẬP</a
+            >
+          </div>
         </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <!-- main -->
-  <main id="app">
-    <div class="flex items-center justify-center min-h-[60vh]">
-      <div class="inline-block w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-    </div>
-  </main>
+    <!-- main -->
+    <main id="app">
+      <div class="flex items-center justify-center min-h-[60vh]">
+        <div
+          class="inline-block w-10 h-10 border-4 border-primary/20 border-t-primary rounded-full animate-spin"
+        ></div>
+      </div>
+    </main>
 
-  <!-- Footer -->
-  <footer class="w-full py-xl bg-primary">
-    <div class="max-w-container-max mx-auto px-gutter">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-xl mb-xl">
-        <div class="space-y-md">
-          <span class="font-headline-md text-headline-md text-secondary-fixed">Courtify</span>
+    <!-- Footer -->
+    <footer class="w-full py-xl bg-primary">
+      <div class="max-w-container-max mx-auto px-gutter">
+        <div
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-xl mb-xl"
+        >
+          <div class="space-y-md">
+            <img
+              src="src/public/images/logo-courtify.png"
+              alt="Courtify"
+              class="h-14 w-auto brightness-0 invert"
+            />
+            <p class="text-on-primary/60 text-sm">
+              Nền tảng đặt sân và quản lý vận động viên tiên tiến nhất thế giới.
+              Kết nối đam mê, nâng tầm trải nghiệm.
+            </p>
+            <div class="flex gap-md">
+              <a
+                class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-on-primary/10 transition-all text-on-primary"
+                href="#"
+              >
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                  <path
+                    d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                  ></path>
+                </svg>
+              </a>
+              <a
+                class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-on-primary/10 transition-all text-on-primary"
+                href="#"
+              >
+                <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"
+                  ></path>
+                </svg>
+              </a>
+              <a
+                class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-on-primary/10 transition-all text-on-primary font-bold text-xs"
+                href="#"
+                >Zalo</a
+              >
+            </div>
+          </div>
+          <div class="flex flex-col gap-sm">
+            <span
+              class="text-on-primary font-bold text-sm uppercase tracking-wider"
+              >Về Courtify</span
+            >
+            <a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Về chúng tôi</a
+            >
+            <a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Điều khoản dịch vụ</a
+            >
+            <a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Chính sách bảo mật</a
+            >
+          </div>
+          <div class="flex flex-col gap-sm">
+            <span
+              class="text-on-primary font-bold text-sm uppercase tracking-wider"
+              >Khám phá</span
+            >
+            <a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Tennis</a
+            >
+            <a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Cầu lông</a
+            >
+            <a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Pickleball</a
+            >
+          </div>
+          <div class="flex flex-col gap-sm">
+            <span
+              class="text-on-primary font-bold text-sm uppercase tracking-wider"
+              >Hỗ trợ</span
+            >
+            <a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Câu hỏi thường gặp</a
+            >
+            <a
+              class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm"
+              href="#"
+              >Liên hệ</a
+            >
+            <div class="mt-md space-y-xs">
+              <p class="text-on-primary/80 text-sm flex items-center gap-xs">
+                <span class="material-symbols-outlined text-sm">mail</span>
+                contact@courtify.vn
+              </p>
+              <p class="text-on-primary/80 text-sm flex items-center gap-xs">
+                <span class="material-symbols-outlined text-sm">call</span> 1900
+                1234
+              </p>
+            </div>
+          </div>
+        </div>
+        <div
+          class="border-t border-on-primary/10 pt-lg flex flex-col md:flex-row justify-between items-center gap-md"
+        >
           <p class="text-on-primary/60 text-sm">
-            Nền tảng đặt sân và quản lý vận động viên tiên tiến nhất thế giới.
-            Kết nối đam mê, nâng tầm trải nghiệm.
+            © 2024 Courtify - Đặt sân chuyên nghiệp. Bảo lưu mọi quyền.
           </p>
-          <div class="flex gap-md">
-            <a class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-on-primary/10 transition-all text-on-primary"
-              href="#">
-              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                <path
-                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z">
-                </path>
-              </svg>
-            </a>
-            <a class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-on-primary/10 transition-all text-on-primary"
-              href="#">
-              <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                <path
-                  d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z">
-                </path>
-              </svg>
-            </a>
-            <a class="w-10 h-10 rounded-full border border-on-primary/20 flex items-center justify-center hover:bg-on-primary/10 transition-all text-on-primary font-bold text-xs"
-              href="#">Zalo</a>
-          </div>
-        </div>
-        <div class="flex flex-col gap-sm">
-          <span class="text-on-primary font-bold text-sm uppercase tracking-wider">Về Courtify</span>
-          <a class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm" href="#">Về chúng tôi</a>
-          <a class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm" href="#">Điều khoản dịch
-            vụ</a>
-          <a class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm" href="#">Chính sách bảo
-            mật</a>
-        </div>
-        <div class="flex flex-col gap-sm">
-          <span class="text-on-primary font-bold text-sm uppercase tracking-wider">Khám phá</span>
-          <a class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm" href="#">Tennis</a>
-          <a class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm" href="#">Cầu lông</a>
-          <a class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm" href="#">Pickleball</a>
-        </div>
-        <div class="flex flex-col gap-sm">
-          <span class="text-on-primary font-bold text-sm uppercase tracking-wider">Hỗ trợ</span>
-          <a class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm" href="#">Câu hỏi thường
-            gặp</a>
-          <a class="text-on-primary/80 hover:text-secondary-fixed transition-colors text-sm" href="#">Liên hệ</a>
-          <div class="mt-md space-y-xs">
-            <p class="text-on-primary/80 text-sm flex items-center gap-xs">
-              <span class="material-symbols-outlined text-sm">mail</span>
-              contact@courtify.vn
-            </p>
-            <p class="text-on-primary/80 text-sm flex items-center gap-xs">
-              <span class="material-symbols-outlined text-sm">call</span> 1900 1234
-            </p>
-          </div>
         </div>
       </div>
-      <div class="border-t border-on-primary/10 pt-lg flex flex-col md:flex-row justify-between items-center gap-md">
-        <p class="text-on-primary/60 text-sm">© 2024 Courtify - Đặt sân chuyên nghiệp. Bảo lưu mọi quyền.</p>
-      </div>
-    </div>
-  </footer>
+    </footer>
 
-  <script type="module" src="./src/dist/index.js"></script>
-</body>
-
+    <script type="module" src="./src/dist/index.js"></script>
+  </body>
 </html>

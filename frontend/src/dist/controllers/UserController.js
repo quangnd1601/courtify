@@ -364,7 +364,7 @@ export default class UserController {
             });
         }
     }
-    // Trang thông tin cá nhân (bao gồm cả Lịch đặt sân dưới dạng tab)
+    // Trang thông tin cá nhân - tab
     async profile() {
         const app = document.getElementById("app");
         if (!app)

@@ -1,7 +1,8 @@
 const SportsCenterModel = require("../models/SportsCenter");
 
 let getAll = async (options = {}) => {
-  const { sort, limit, location, sport_id, price_min, price_max, owner_id } = options;
+  const { sort, limit, location, sport_id, price_min, price_max, owner_id } =
+    options;
 
   // Build filter query object
   let filter = {};
@@ -26,10 +27,16 @@ let getAll = async (options = {}) => {
 
   // 3. Lọc giá (dựa trên mức giá thấp nhất trong mảng pricing)
   if (price_min !== undefined && price_min !== "") {
-    filter["pricing.price"] = { ...filter["pricing.price"], $gte: Number(price_min) };
+    filter["pricing.price"] = {
+      ...filter["pricing.price"],
+      $gte: Number(price_min),
+    };
   }
   if (price_max !== undefined && price_max !== "") {
-    filter["pricing.price"] = { ...filter["pricing.price"], $lte: Number(price_max) };
+    filter["pricing.price"] = {
+      ...filter["pricing.price"],
+      $lte: Number(price_max),
+    };
   }
 
   let query = SportsCenterModel.find(filter)
@@ -59,7 +66,9 @@ let getAll = async (options = {}) => {
 };
 
 let getOne = async (id) => {
-  const center = await SportsCenterModel.findById(id).populate("owner_id", "-password").populate("sport_id");
+  const center = await SportsCenterModel.findById(id)
+    .populate("owner_id", "-password")
+    .populate("sport_id");
   return center;
 };
 
@@ -70,7 +79,9 @@ let create = async (data) => {
 };
 
 let update = async (id, data) => {
-  const center = await SportsCenterModel.findByIdAndUpdate(id, data, { new: true });
+  const center = await SportsCenterModel.findByIdAndUpdate(id, data, {
+    new: true,
+  });
   return center;
 };
 

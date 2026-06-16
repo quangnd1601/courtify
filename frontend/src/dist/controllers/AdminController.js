@@ -52,7 +52,7 @@ export default class AdminController {
               <span class="material-symbols-outlined text-[18px]">account_circle</span>
               <span class="truncate">${userName}</span>
             </div>
-            <button onclick="localStorage.removeItem('courtify_user'); localStorage.removeItem('courtify_token'); window.location.href='index.html';"
+            <button onclick="localStorage.removeItem('courtify_user'); localStorage.removeItem('access_token'); window.location.href='index.html';"
               class="flex items-center gap-2 px-4 py-2 text-sm text-red-300 hover:text-red-200 hover:bg-white/5 rounded-lg transition w-full">
               <span class="material-symbols-outlined text-[18px]">logout</span>
               <span class="hidden lg:inline">Đăng Xuất</span>
@@ -323,9 +323,7 @@ export default class AdminController {
               </span>
             </td>
             <td class="px-4 py-3 text-sm">
-              <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${u.status === "active"
-                ? "badge-active"
-                : "badge-cancelled"}">
+              <span class="px-2 py-0.5 rounded-full text-xs font-semibold ${u.status === "active" ? "badge-active" : "badge-cancelled"}">
                 ${u.status === "active" ? "Hoạt động" : "Bị khóa"}
               </span>
             </td>

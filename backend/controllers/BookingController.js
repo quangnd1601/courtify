@@ -56,9 +56,10 @@ const createBooking = async (req, res, next) => {
       subtotal === undefined ||
       total_price === undefined
     ) {
-      return res
-        .status(400)
-        .json({ message: "Vui lòng nhập đầy đủ các thông tin bắt buộc (user_id, sport_center_id, court_id, booking_date, slots, subtotal, total_price)" });
+      return res.status(400).json({
+        message:
+          "Vui lòng nhập đầy đủ các thông tin bắt buộc (user_id, sport_center_id, court_id, booking_date, slots, subtotal, total_price)",
+      });
     }
 
     if (
@@ -69,12 +70,17 @@ const createBooking = async (req, res, next) => {
       return res.status(400).json({ message: "ID liên kết không hợp lệ" });
     }
 
-    // Check double bookings / slot 
+    // Check trùg
     const startTimes = slots.map((s) => s.start_time);
-    const hasConflict = await BookingService.checkConflict(court_id, booking_date, startTimes);
+    const hasConflict = await BookingService.checkConflict(
+      court_id,
+      booking_date,
+      startTimes,
+    );
     if (hasConflict) {
       return res.status(400).json({
-        message: "Khung giờ này vừa mới được người khác đặt, vui lòng chọn khung giờ khác",
+        message:
+          "Khung giờ này vừa mới được người khác đặt, vui lòng chọn khung giờ khác",
       });
     }
 
@@ -97,10 +103,11 @@ const createBooking = async (req, res, next) => {
     });
     res.status(201).json({ booking: newBooking });
   } catch (error) {
-    //  double booking 
+    //  double booking
     if (error.code === 11000) {
       return res.status(400).json({
-        message: "Khung giờ này vừa mới được người khác đặt, vui lòng chọn khung giờ khác",
+        message:
+          "Khung giờ này vừa mới được người khác đặt, vui lòng chọn khung giờ khác",
         error: error.message,
       });
     }
@@ -122,7 +129,8 @@ const updateBooking = async (req, res, next) => {
   } catch (error) {
     if (error.code === 11000) {
       return res.status(400).json({
-        message: "Khung giờ này đã được người khác đặt, vui lòng chọn khung giờ khác",
+        message:
+          "Khung giờ này đã được người khác đặt, vui lòng chọn khung giờ khác",
         error: error.message,
       });
     }
@@ -164,9 +172,15 @@ const expandPricingToHourlySlots = (pricing) => {
     const endMinutes = endH * 60 + endM;
 
     while (currentMinutes + 60 <= endMinutes) {
-      const slotStartH = String(Math.floor(currentMinutes / 60)).padStart(2, "0");
+      const slotStartH = String(Math.floor(currentMinutes / 60)).padStart(
+        2,
+        "0",
+      );
       const slotStartM = String(currentMinutes % 60).padStart(2, "0");
-      const slotEndH = String(Math.floor((currentMinutes + 60) / 60)).padStart(2, "0");
+      const slotEndH = String(Math.floor((currentMinutes + 60) / 60)).padStart(
+        2,
+        "0",
+      );
       const slotEndM = String((currentMinutes + 60) % 60).padStart(2, "0");
 
       hourlySlots.push({
@@ -207,7 +221,7 @@ const getAvailableSlots = async (req, res, next) => {
       return res.status(200).json({ slots: [] });
     }
 
-    // Expand tất cả pricing entries thành từng slot 1 giờ
+    // Expand tất cả thành từng slot 1 giờ
     const allHourlySlots = expandPricingToHourlySlots(center.pricing);
 
     // Lấy tất cả booking đã đặt cho sân này vào ngày này (không bị huỷ)
@@ -236,7 +250,6 @@ const getAvailableSlots = async (req, res, next) => {
   }
 };
 
-
 module.exports = {
   getAllBookings,
   getBookingById,
@@ -245,4 +258,3 @@ module.exports = {
   deleteBooking,
   getAvailableSlots,
 };
-

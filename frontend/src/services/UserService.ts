@@ -1,24 +1,51 @@
 import config from "../config/config.js";
 import { IUser } from "../models/UserModel.js";
 
-const mockUsers: IUser[] = [
-  {
-    _id: "mock1",
-    name: "Mock Admin (DB Offline)",
-    phone: "0999999999",
-    email: "mock_admin@gmail.com",
-    role: "admin",
-    status: "active",
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-    avatar_url: "",
-  },
-];
+const refreshAccessToken = async (): Promise<string | null> => {
+  const refreshToken = localStorage.getItem("refresh_token");
+  if (!refreshToken) return null;
 
-const handleFetch = async (url: string, options?: RequestInit) => {
+  const response = await fetch(`${config.BASE_URL}/users/refresh-token`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ refresh_token: refreshToken }),
+  });
+
+  if (!response.ok) {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    return null;
+  }
+
+  const data = await response.json().catch(() => ({}));
+  if (data.access_token) {
+    localStorage.setItem("access_token", data.access_token);
+  }
+  if (data.refresh_token) {
+    localStorage.setItem("refresh_token", data.refresh_token);
+  }
+  return data.access_token || null;
+};
+
+const handleFetch = async (
+  url: string,
+  options?: RequestInit,
+  retryOnAuth = true,
+): Promise<any> => {
   try {
     const response = await fetch(url, options);
     if (!response.ok) {
+      if (response.status === 401 && retryOnAuth) {
+        const token = await refreshAccessToken();
+        if (token) {
+          const newHeaders = {
+            ...((options?.headers as Record<string, string>) || {}),
+            Authorization: `Bearer ${token}`,
+          };
+          return handleFetch(url, { ...options, headers: newHeaders }, false);
+        }
+      }
+
       const data = await response.json().catch(() => ({}));
       throw new Error(
         data.message || `Lỗi từ hệ thống (HTTP ${response.status})`,
@@ -35,107 +62,47 @@ const handleFetch = async (url: string, options?: RequestInit) => {
 
 const UserService = {
   getAll: async (): Promise<IUser[]> => {
-    try {
-      const data = await handleFetch(`${config.BASE_URL}/users`);
-      return data.users;
-    } catch (error) {
-      if ((error as Error).message === "NETWORK_ERROR") {
-        console.warn(
-          "Mất kết nối với Backend, sử dụng dữ liệu mẫu (Mock Data)",
-        );
-        return mockUsers;
-      }
-      throw error;
-    }
+    const data = await handleFetch(`${config.BASE_URL}/users`);
+    return data.users;
   },
 
   getOne: async (id: string): Promise<IUser> => {
-    try {
-      const data = await handleFetch(`${config.BASE_URL}/users/${id}`);
-      return data.user;
-    } catch (error) {
-      if ((error as Error).message === "NETWORK_ERROR") {
-        console.warn(
-          "Mất kết nối với Backend, sử dụng dữ liệu mẫu (Mock Data)",
-        );
-        const user = mockUsers.find((u) => u._id === id);
-        if (!user)
-          throw new Error("Không tìm thấy người dùng trong dữ liệu mẫu");
-        return user;
-      }
-      throw error;
-    }
+    const data = await handleFetch(`${config.BASE_URL}/users/${id}`);
+    return data.user;
   },
 
   create: async (
     user: Partial<IUser> & { password: string },
   ): Promise<IUser> => {
-    try {
-      const data = await handleFetch(`${config.BASE_URL}/users`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
-      });
-      return data.user;
-    } catch (error) {
-      if ((error as Error).message === "NETWORK_ERROR") {
-        console.warn(
-          "Mất kết nối với Backend, sử dụng dữ liệu mẫu (Mock Data)",
-        );
-        const newUser = {
-          ...user,
-          _id: "mock_" + Math.random().toString(36).substring(2, 9),
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        } as IUser;
-        mockUsers.push(newUser);
-        return newUser;
-      }
-      throw error;
-    }
+    const data = await handleFetch(`${config.BASE_URL}/users`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(user),
+    });
+    return data.user;
   },
 
   update: async (id: string, user: Partial<IUser>): Promise<IUser> => {
-    try {
-      const data = await handleFetch(`${config.BASE_URL}/users/${id}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(user),
-      });
-      return data.user;
-    } catch (error) {
-      if ((error as Error).message === "NETWORK_ERROR") {
-        console.warn(
-          "Mất kết nối với Backend, sử dụng dữ liệu mẫu (Mock Data)",
-        );
-        const index = mockUsers.findIndex((u) => u._id === id);
-        if (index === -1)
-          throw new Error("Không tìm thấy người dùng trong dữ liệu mẫu");
-        mockUsers[index] = {
-          ...mockUsers[index],
-          ...user,
-          updated_at: new Date().toISOString(),
-        } as IUser;
-        return mockUsers[index]!;
-      }
-      throw error;
+    const token = localStorage.getItem("access_token");
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
     }
+
+    const data = await handleFetch(`${config.BASE_URL}/users/${id}`, {
+      method: "PUT",
+      headers,
+      body: JSON.stringify(user),
+    });
+    return data.user;
   },
 
   remove: async (id: string): Promise<void> => {
-    try {
-      await handleFetch(`${config.BASE_URL}/users/delete/${id}`, {
-        method: "DELETE",
-      });
-    } catch (error) {
-      if ((error as Error).message === "NETWORK_ERROR") {
-        console.warn("Mất kết nối với Backend");
-        const index = mockUsers.findIndex((u) => u._id === id);
-        if (index !== -1) mockUsers.splice(index, 1);
-        return;
-      }
-      throw error;
-    }
+    await handleFetch(`${config.BASE_URL}/users/delete/${id}`, {
+      method: "DELETE",
+    });
   },
 
   login: async (credentials: any): Promise<any> => {
@@ -146,6 +113,12 @@ const UserService = {
     });
     if (data.user) {
       localStorage.setItem("courtify_user", JSON.stringify(data.user));
+      if (data.access_token) {
+        localStorage.setItem("access_token", data.access_token);
+      }
+      if (data.refresh_token) {
+        localStorage.setItem("refresh_token", data.refresh_token);
+      }
     }
     return data;
   },
@@ -170,7 +143,9 @@ const UserService = {
 
   logout: (): void => {
     localStorage.removeItem("courtify_user");
-  }
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+  },
 };
 
 export default UserService;

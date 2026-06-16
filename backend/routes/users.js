@@ -9,10 +9,11 @@ var {
   loginUser,
   refreshToken,
 } = require("../controllers/UserController");
+const authen = require("../middleware/authen");
 
 router.get("/", getAllUsers);
 router.get("/:id", getUserById);
-router.put("/:id", updateUser);
+router.put("/:id", authen, updateUser);
 router.delete("/:id", deleteUser);
 
 // Auth endpoints

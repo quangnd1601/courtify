@@ -13,11 +13,11 @@ export default class SearchController {
         <div class="w-8 h-8 border-4 border-primary/30 border-t-primary rounded-full animate-spin"></div>
       </div>`;
         try {
-            // Tải danh sách các môn thể thao từ backend để điền vào bộ lọc
+            // load danh mục
             const sports = await SportService.getAll();
-            // Render cấu trúc trang Tìm kiếm
+            // view tìm kiếm
             app.innerHTML = SearchView.renderPage(sports);
-            // Đọc các giá trị bộ lọc từ URL (nếu có) để đặt trạng thái ban đầu
+            // các giá trị
             const urlParams = new URLSearchParams(window.location.search);
             const initialLocation = urlParams.get("location") || "";
             let initialSport = urlParams.get("sport_id") || "";

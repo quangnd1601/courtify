@@ -1,6 +1,6 @@
 const CourtService = require("../services/CourtServices");
 const mongoose = require("mongoose");
-
+const authen = require("../middleware/authen");
 const getAllCourts = async (req, res, next) => {
   try {
     const { sort, limit, sport_center_id } = req.query;
@@ -32,9 +32,10 @@ const createCourt = async (req, res, next) => {
     const { sport_center_id, name, description, thumbnail, gallery, status } =
       req.body;
     if (!sport_center_id || !name) {
-      return res
-        .status(400)
-        .json({ message: "Vui lòng nhập đầy đủ thông tin bắt buộc (sport_center_id, name)" });
+      return res.status(400).json({
+        message:
+          "Vui lòng nhập đầy đủ thông tin bắt buộc (sport_center_id, name)",
+      });
     }
     if (!mongoose.Types.ObjectId.isValid(sport_center_id)) {
       return res.status(400).json({ message: "Sport Center ID không hợp lệ" });

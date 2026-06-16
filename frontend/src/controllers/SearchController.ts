@@ -17,13 +17,13 @@ export default class SearchController {
       </div>`;
 
     try {
-      // Tải danh sách các môn thể thao từ backend để điền vào bộ lọc
+      // load danh mục
       const sports = await SportService.getAll();
 
-      // Render cấu trúc trang Tìm kiếm
+      // view tìm kiếm
       app.innerHTML = SearchView.renderPage(sports);
 
-      // Đọc các giá trị bộ lọc từ URL (nếu có) để đặt trạng thái ban đầu
+      // các giá trị
       const urlParams = new URLSearchParams(window.location.search);
       const initialLocation = urlParams.get("location") || "";
       let initialSport = urlParams.get("sport_id") || "";
@@ -34,18 +34,30 @@ export default class SearchController {
       // Nếu truyền sport_name từ trang chủ, tìm id tương ứng để select
       const sportNameParam = urlParams.get("sport_name");
       if (sportNameParam && !initialSport) {
-        const found = sports.find((s) => s.name.toLowerCase() === sportNameParam.toLowerCase());
+        const found = sports.find(
+          (s) => s.name.toLowerCase() === sportNameParam.toLowerCase(),
+        );
         if (found) {
           initialSport = found._id;
         }
       }
 
       // Điền giá trị vào form
-      const locationInput = document.getElementById("filter-location") as HTMLInputElement;
-      const sportSelect = document.getElementById("filter-sport") as HTMLSelectElement;
-      const priceMinInput = document.getElementById("filter-price-min") as HTMLInputElement;
-      const priceMaxInput = document.getElementById("filter-price-max") as HTMLInputElement;
-      const sortSelect = document.getElementById("sort-select") as HTMLSelectElement;
+      const locationInput = document.getElementById(
+        "filter-location",
+      ) as HTMLInputElement;
+      const sportSelect = document.getElementById(
+        "filter-sport",
+      ) as HTMLSelectElement;
+      const priceMinInput = document.getElementById(
+        "filter-price-min",
+      ) as HTMLInputElement;
+      const priceMaxInput = document.getElementById(
+        "filter-price-max",
+      ) as HTMLInputElement;
+      const sortSelect = document.getElementById(
+        "sort-select",
+      ) as HTMLSelectElement;
 
       if (locationInput) locationInput.value = initialLocation;
       if (sportSelect) sportSelect.value = initialSport;
@@ -73,11 +85,21 @@ export default class SearchController {
     resultsContainer.innerHTML = SearchView.renderLoading();
 
     try {
-      const locationInput = document.getElementById("filter-location") as HTMLInputElement;
-      const sportSelect = document.getElementById("filter-sport") as HTMLSelectElement;
-      const priceMinInput = document.getElementById("filter-price-min") as HTMLInputElement;
-      const priceMaxInput = document.getElementById("filter-price-max") as HTMLInputElement;
-      const sortSelect = document.getElementById("sort-select") as HTMLSelectElement;
+      const locationInput = document.getElementById(
+        "filter-location",
+      ) as HTMLInputElement;
+      const sportSelect = document.getElementById(
+        "filter-sport",
+      ) as HTMLSelectElement;
+      const priceMinInput = document.getElementById(
+        "filter-price-min",
+      ) as HTMLInputElement;
+      const priceMaxInput = document.getElementById(
+        "filter-price-max",
+      ) as HTMLInputElement;
+      const sortSelect = document.getElementById(
+        "sort-select",
+      ) as HTMLSelectElement;
 
       const params = {
         location: locationInput?.value.trim() || undefined,
@@ -122,11 +144,21 @@ export default class SearchController {
     // Reset bộ lọc
     if (clearBtn) {
       clearBtn.addEventListener("click", () => {
-        const locationInput = document.getElementById("filter-location") as HTMLInputElement;
-        const sportSelect = document.getElementById("filter-sport") as HTMLSelectElement;
-        const priceMinInput = document.getElementById("filter-price-min") as HTMLInputElement;
-        const priceMaxInput = document.getElementById("filter-price-max") as HTMLInputElement;
-        const sortSelect = document.getElementById("sort-select") as HTMLSelectElement;
+        const locationInput = document.getElementById(
+          "filter-location",
+        ) as HTMLInputElement;
+        const sportSelect = document.getElementById(
+          "filter-sport",
+        ) as HTMLSelectElement;
+        const priceMinInput = document.getElementById(
+          "filter-price-min",
+        ) as HTMLInputElement;
+        const priceMaxInput = document.getElementById(
+          "filter-price-max",
+        ) as HTMLInputElement;
+        const sortSelect = document.getElementById(
+          "sort-select",
+        ) as HTMLSelectElement;
 
         if (locationInput) locationInput.value = "";
         if (sportSelect) sportSelect.value = "";

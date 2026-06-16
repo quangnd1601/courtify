@@ -7,18 +7,23 @@ const updateRatings = async (sport_center_id, court_id) => {
   if (sport_center_id) {
     const centerReviews = await ReviewModel.find({ sport_center_id });
     const review_count = centerReviews.length;
-    const rating_avg = review_count > 0 
-      ? centerReviews.reduce((sum, r) => sum + r.rating, 0) / review_count 
-      : 0;
-    await SportsCenterModel.findByIdAndUpdate(sport_center_id, { rating_avg, review_count });
+    const rating_avg =
+      review_count > 0
+        ? centerReviews.reduce((sum, r) => sum + r.rating, 0) / review_count
+        : 0;
+    await SportsCenterModel.findByIdAndUpdate(sport_center_id, {
+      rating_avg,
+      review_count,
+    });
   }
 
   if (court_id) {
     const courtReviews = await ReviewModel.find({ court_id });
     const review_count = courtReviews.length;
-    const rating_avg = review_count > 0 
-      ? courtReviews.reduce((sum, r) => sum + r.rating, 0) / review_count 
-      : 0;
+    const rating_avg =
+      review_count > 0
+        ? courtReviews.reduce((sum, r) => sum + r.rating, 0) / review_count
+        : 0;
     await CourtModel.findByIdAndUpdate(court_id, { rating_avg, review_count });
   }
 };

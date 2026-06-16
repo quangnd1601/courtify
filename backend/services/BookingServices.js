@@ -29,8 +29,12 @@ let create = async (data) => {
   if (savedBooking && savedBooking.booking_status !== "cancelled") {
     const SportsCenterModel = require("../models/SportsCenter");
     const CourtModel = require("../models/Court");
-    await SportsCenterModel.findByIdAndUpdate(savedBooking.sport_center_id, { $inc: { booking_count: 1 } });
-    await CourtModel.findByIdAndUpdate(savedBooking.court_id, { $inc: { booking_count: 1 } });
+    await SportsCenterModel.findByIdAndUpdate(savedBooking.sport_center_id, {
+      $inc: { booking_count: 1 },
+    });
+    await CourtModel.findByIdAndUpdate(savedBooking.court_id, {
+      $inc: { booking_count: 1 },
+    });
   }
 
   return savedBooking;
@@ -51,14 +55,29 @@ let update = async (id, data) => {
     const CourtModel = require("../models/Court");
 
     // Nếu chuyển từ KHÁC cancelled sang cancelled -> Giảm count
-    if (oldBooking.booking_status !== "cancelled" && data.booking_status === "cancelled") {
-      await SportsCenterModel.findByIdAndUpdate(booking.sport_center_id, { $inc: { booking_count: -1 } });
-      await CourtModel.findByIdAndUpdate(booking.court_id, { $inc: { booking_count: -1 } });
+    if (
+      oldBooking.booking_status !== "cancelled" &&
+      data.booking_status === "cancelled"
+    ) {
+      await SportsCenterModel.findByIdAndUpdate(booking.sport_center_id, {
+        $inc: { booking_count: -1 },
+      });
+      await CourtModel.findByIdAndUpdate(booking.court_id, {
+        $inc: { booking_count: -1 },
+      });
     }
     // Nếu chuyển từ cancelled sang trạng thái bình thường -> Tăng count
-    else if (oldBooking.booking_status === "cancelled" && data.booking_status && data.booking_status !== "cancelled") {
-      await SportsCenterModel.findByIdAndUpdate(booking.sport_center_id, { $inc: { booking_count: 1 } });
-      await CourtModel.findByIdAndUpdate(booking.court_id, { $inc: { booking_count: 1 } });
+    else if (
+      oldBooking.booking_status === "cancelled" &&
+      data.booking_status &&
+      data.booking_status !== "cancelled"
+    ) {
+      await SportsCenterModel.findByIdAndUpdate(booking.sport_center_id, {
+        $inc: { booking_count: 1 },
+      });
+      await CourtModel.findByIdAndUpdate(booking.court_id, {
+        $inc: { booking_count: 1 },
+      });
     }
   }
 
@@ -70,8 +89,12 @@ let remove = async (id) => {
   if (booking && booking.booking_status !== "cancelled") {
     const SportsCenterModel = require("../models/SportsCenter");
     const CourtModel = require("../models/Court");
-    await SportsCenterModel.findByIdAndUpdate(booking.sport_center_id, { $inc: { booking_count: -1 } });
-    await CourtModel.findByIdAndUpdate(booking.court_id, { $inc: { booking_count: -1 } });
+    await SportsCenterModel.findByIdAndUpdate(booking.sport_center_id, {
+      $inc: { booking_count: -1 },
+    });
+    await CourtModel.findByIdAndUpdate(booking.court_id, {
+      $inc: { booking_count: -1 },
+    });
   }
   return booking;
 };

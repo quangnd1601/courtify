@@ -47,7 +47,7 @@ export const SearchView = {
 
                 <select
                   id="filter-sport"
-                  class="w-full pl-24 pr-md py-sm rounded-lg border border-outline-variant focus:border-primary focus:ring-0 text-on-surface bg-surface-container-lowest appearance-none"
+                  class="w-full pl-4 pr-md py-sm rounded-lg border border-outline-variant focus:border-primary focus:ring-0 text-on-surface bg-surface-container-lowest appearance-none"
                 >
                   <option value="">Tất cả môn thể thao</option>
                   ${sportOptions}

@@ -18,7 +18,9 @@ let create = async (data) => {
 
 let update = async (userId, data) => {
   data.updated_at = Date.now();
-  const user = await UserModel.findByIdAndUpdate(userId, data, { new: true }).select("-password");
+  const user = await UserModel.findByIdAndUpdate(userId, data, {
+    new: true,
+  }).select("-password");
   return user;
 };
 

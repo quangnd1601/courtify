@@ -8,7 +8,9 @@ let getAll = async (options = {}) => {
   }
 
   if (sort === "newest") {
-    let query = CourtModel.find(filter).populate("sport_center_id").sort({ created_at: -1 });
+    let query = CourtModel.find(filter)
+      .populate("sport_center_id")
+      .sort({ created_at: -1 });
     if (limit) {
       query = query.limit(parseInt(limit));
     }

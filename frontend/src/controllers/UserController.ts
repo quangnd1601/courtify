@@ -160,7 +160,7 @@ export default class UserController {
         } catch (error: any) {
           alert(
             error.message ||
-            "Đăng nhập thất bại. Vui lòng kiểm tra lại email/mật khẩu.",
+              "Đăng nhập thất bại. Vui lòng kiểm tra lại email/mật khẩu.",
           );
         }
       });
@@ -439,7 +439,7 @@ export default class UserController {
         } catch (error: any) {
           alert(
             error.message ||
-            "Đặt sân thất bại. Khung giờ này có thể đã bị người khác đặt trước.",
+              "Đặt sân thất bại. Khung giờ này có thể đã bị người khác đặt trước.",
           );
           confirmBtn.disabled = false;
           confirmBtn.textContent = "Thanh toán ngay";
@@ -448,7 +448,7 @@ export default class UserController {
     }
   }
 
-  // Trang thông tin cá nhân (bao gồm cả Lịch đặt sân dưới dạng tab)
+  // Trang thông tin cá nhân - tab
   async profile(): Promise<void> {
     const app = document.getElementById("app");
     if (!app) return;
